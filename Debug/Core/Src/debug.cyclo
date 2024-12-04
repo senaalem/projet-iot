@@ -1,0 +1,12 @@
+../Core/Src/debug.c:39:6:debug_init	1
+../Core/Src/debug.c:49:6:debug_led	1
+../Core/Src/debug.c:53:6:debug_char	1
+../Core/Src/debug.c:59:6:debug_hex	1
+../Core/Src/debug.c:64:6:debug_buf	2
+../Core/Src/debug.c:73:6:debug_uint	2
+../Core/Src/debug.c:79:6:debug_int	2
+../Core/Src/debug.c:86:6:debug_str	2
+../Core/Src/debug.c:92:6:debug_val	1
+../Core/Src/debug.c:99:6:debug_valdec	1
+../Core/Src/debug.c:106:5:debug_fmt	11
+../Core/Src/debug.c:130:6:debug_event	2
