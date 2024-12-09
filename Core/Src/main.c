@@ -93,6 +93,7 @@ void os_getDevKey(u1_t *buf)
 void initsensor()
 {
 	// Here you init your sensors
+	HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
 }
 
 void initfunc(osjob_t *j)
@@ -118,10 +119,13 @@ static void reportfunc(osjob_t *j)
 {
 	// read sensor
 	u2_t val = readsensor();
-	debug_val("val = ", val);
+	debug_valdec("val = ", val);
 	// prepare and schedule data for transmission
-	LMIC.frame[0] = val << 8;
-	LMIC.frame[1] = val;
+	LMIC.frame[0] = 0;
+	LMIC.frame[1] = 0x67;
+	val /= 100;
+	LMIC.frame[2] = val >> 8;
+	LMIC.frame[3] = val;
 	// La fonction LMIC_setTxData2 envoie
 	LMIC_setTxData2(1, LMIC.frame, 2, 0);
 	// la trame Lora : LMIC.frame
@@ -264,10 +268,10 @@ int main(void)
 	MX_ADC1_Init();
 	MX_TIM6_Init();
 	/* USER CODE BEGIN 2 */
-	HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
 	HAL_TIM_Base_Start_IT(&htim6);
 	HAL_TIM_Base_Start_IT(&htim7);   // <----------- change to your setup
 	__HAL_SPI_ENABLE(&hspi3);        // <----------- change to your setup
+	HAL_GPIO_WritePin(Alim_temp_GPIO_Port, Alim_temp_Pin, GPIO_PIN_SET);
 	osjob_t initjob;
 	// initialize runtime env
 	os_init();
