@@ -127,7 +127,7 @@ static void reportfunc(osjob_t *j)
 	LMIC.frame[2] = val >> 8;
 	LMIC.frame[3] = val;
 	// La fonction LMIC_setTxData2 envoie
-	LMIC_setTxData2(1, LMIC.frame, 2, 0);
+	LMIC_setTxData2(1, LMIC.frame, 4, 0);
 	// la trame Lora : LMIC.frame
 	// (port 1, 2 bytes, unconfirmed)
 	// reschedule job in 15 seconds

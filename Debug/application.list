@@ -27,25 +27,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  0000d054  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0001d0e4  00000000  00000000  0000d084  2**0
+ 12 .debug_info   0001d1ad  00000000  00000000  0000d084  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00003efc  00000000  00000000  0002a168  2**0
+ 13 .debug_abbrev 00003f3d  00000000  00000000  0002a231  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00001a50  00000000  00000000  0002e068  2**3
+ 14 .debug_aranges 00001a60  00000000  00000000  0002e170  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_rnglists 0000147e  00000000  00000000  0002fab8  2**0
+ 15 .debug_rnglists 0000148a  00000000  00000000  0002fbd0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  0002455a  00000000  00000000  00030f36  2**0
+ 16 .debug_macro  0002455a  00000000  00000000  0003105a  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0001cdb4  00000000  00000000  00055490  2**0
+ 17 .debug_line   0001cde2  00000000  00000000  000555b4  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000df21e  00000000  00000000  00072244  2**0
+ 18 .debug_str    000df242  00000000  00000000  00072396  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  00151462  2**0
+ 19 .comment      00000043  00000000  00000000  001515d8  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00006fd8  00000000  00000000  001514a8  2**2
+ 20 .debug_frame  00007020  00000000  00000000  0015161c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 00000074  00000000  00000000  00158480  2**0
+ 21 .debug_line_str 00000074  00000000  00000000  0015863c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -2098,20 +2098,20 @@ u4_t os_aes (u1_t mode, xref2u1_t buf, u2_t len) {
  800117c:	200000d4 	.word	0x200000d4
 
 08001180 <debug_init>:
-
 /*  ************************************** */
 /*    DO NOT CHANGE BELOW THIS LINE        */
 /*  ************************************** */
 
-void debug_init () {
+void debug_init()
+{
  8001180:	b580      	push	{r7, lr}
  8001182:	af00      	add	r7, sp, #0
 //    debug_led(0);
 
-    // configure USART1 (115200/8N1, tx-only)
+// configure USART1 (115200/8N1, tx-only)
 
-    // print banner
-    debug_str("\r\n============== DEBUG STARTED ==============\r\n");
+	// print banner
+	debug_str("\r\n============== DEBUG STARTED ==============\r\n");
  8001184:	4802      	ldr	r0, [pc, #8]	@ (8001190 <debug_init+0x10>)
  8001186:	f000 f88d 	bl	80012a4 <debug_str>
 }
@@ -2122,12 +2122,13 @@ void debug_init () {
 
 08001194 <debug_led>:
 
-void debug_led (int val) {
+void debug_led(int val)
+{
  8001194:	b580      	push	{r7, lr}
  8001196:	b082      	sub	sp, #8
  8001198:	af00      	add	r7, sp, #0
  800119a:	6078      	str	r0, [r7, #4]
-    HAL_GPIO_WritePin(LED_GPIO_Port,LED_Pin,val);
+	HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, val);
  800119c:	687b      	ldr	r3, [r7, #4]
  800119e:	b2db      	uxtb	r3, r3
  80011a0:	461a      	mov	r2, r3
@@ -2144,19 +2145,20 @@ void debug_led (int val) {
 
 080011b8 <debug_char>:
 
-void debug_char (char c) {
+void debug_char(char c)
+{
  80011b8:	b580      	push	{r7, lr}
  80011ba:	b084      	sub	sp, #16
  80011bc:	af00      	add	r7, sp, #0
  80011be:	4603      	mov	r3, r0
  80011c0:	71fb      	strb	r3, [r7, #7]
-  char buffer[] = "";
+	char buffer[] = "";
  80011c2:	2300      	movs	r3, #0
  80011c4:	733b      	strb	r3, [r7, #12]
-  buffer[0]= c;
+	buffer[0] = c;
  80011c6:	79fb      	ldrb	r3, [r7, #7]
  80011c8:	733b      	strb	r3, [r7, #12]
-  HAL_UART_Transmit(&myUART,buffer,sizeof(buffer),HAL_MAX_DELAY);
+	HAL_UART_Transmit(&myUART, buffer, sizeof(buffer), HAL_MAX_DELAY);
  80011ca:	f107 010c 	add.w	r1, r7, #12
  80011ce:	f04f 33ff 	mov.w	r3, #4294967295	@ 0xffffffff
  80011d2:	2201      	movs	r2, #1
@@ -2172,13 +2174,14 @@ void debug_char (char c) {
 
 080011e8 <debug_hex>:
 
-void debug_hex (u1_t b) {
+void debug_hex(u1_t b)
+{
  80011e8:	b580      	push	{r7, lr}
  80011ea:	b082      	sub	sp, #8
  80011ec:	af00      	add	r7, sp, #0
  80011ee:	4603      	mov	r3, r0
  80011f0:	71fb      	strb	r3, [r7, #7]
-    debug_char("0123456789ABCDEF"[b>>4]);
+	debug_char("0123456789ABCDEF"[b >> 4]);
  80011f2:	79fb      	ldrb	r3, [r7, #7]
  80011f4:	091b      	lsrs	r3, r3, #4
  80011f6:	b2db      	uxtb	r3, r3
@@ -2187,7 +2190,7 @@ void debug_hex (u1_t b) {
  80011fc:	5c9b      	ldrb	r3, [r3, r2]
  80011fe:	4618      	mov	r0, r3
  8001200:	f7ff ffda 	bl	80011b8 <debug_char>
-    debug_char("0123456789ABCDEF"[b&0xF]);
+	debug_char("0123456789ABCDEF"[b & 0xF]);
  8001204:	79fb      	ldrb	r3, [r7, #7]
  8001206:	f003 030f 	and.w	r3, r3, #15
  800120a:	4a04      	ldr	r2, [pc, #16]	@ (800121c <debug_hex+0x34>)
@@ -2202,28 +2205,28 @@ void debug_hex (u1_t b) {
  800121c:	0800a908 	.word	0x0800a908
 
 08001220 <debug_uint>:
-    }
-    debug_char('\r');
-    debug_char('\n');
+	debug_char('\r');
+	debug_char('\n');
 }
 
-void debug_uint (u4_t v) {
+void debug_uint(u4_t v)
+{
  8001220:	b580      	push	{r7, lr}
  8001222:	b084      	sub	sp, #16
  8001224:	af00      	add	r7, sp, #0
  8001226:	6078      	str	r0, [r7, #4]
-    for(s1_t n=24; n>=0; n-=8) {
+	for (s1_t n = 24; n >= 0; n -= 8) {
  8001228:	2318      	movs	r3, #24
  800122a:	73fb      	strb	r3, [r7, #15]
  800122c:	e00c      	b.n	8001248 <debug_uint+0x28>
-        debug_hex(v>>n);
+		debug_hex(v >> n);
  800122e:	f997 300f 	ldrsb.w	r3, [r7, #15]
  8001232:	687a      	ldr	r2, [r7, #4]
  8001234:	fa22 f303 	lsr.w	r3, r2, r3
  8001238:	b2db      	uxtb	r3, r3
  800123a:	4618      	mov	r0, r3
  800123c:	f7ff ffd4 	bl	80011e8 <debug_hex>
-    for(s1_t n=24; n>=0; n-=8) {
+	for (s1_t n = 24; n >= 0; n -= 8) {
  8001240:	7bfb      	ldrb	r3, [r7, #15]
  8001242:	3b08      	subs	r3, #8
  8001244:	b2db      	uxtb	r3, r3
@@ -2231,7 +2234,7 @@ void debug_uint (u4_t v) {
  8001248:	f997 300f 	ldrsb.w	r3, [r7, #15]
  800124c:	2b00      	cmp	r3, #0
  800124e:	daee      	bge.n	800122e <debug_uint+0xe>
-    }
+	}
 }
  8001250:	bf00      	nop
  8001252:	bf00      	nop
@@ -2241,15 +2244,16 @@ void debug_uint (u4_t v) {
 
 0800125a <debug_int>:
 
-void debug_int (s4_t v) {
+void debug_int(s4_t v)
+{
  800125a:	b580      	push	{r7, lr}
  800125c:	b08a      	sub	sp, #40	@ 0x28
  800125e:	af02      	add	r7, sp, #8
  8001260:	6078      	str	r0, [r7, #4]
-    char buf[10], *p = buf;
+	char buf[10], *p = buf;
  8001262:	f107 030c 	add.w	r3, r7, #12
  8001266:	61fb      	str	r3, [r7, #28]
-    int n = debug_fmt(buf, sizeof(buf), v, 10, 0, 0);
+	int n = debug_fmt(buf, sizeof(buf), v, 10, 0, 0);
  8001268:	f107 000c 	add.w	r0, r7, #12
  800126c:	2300      	movs	r3, #0
  800126e:	9301      	str	r3, [sp, #4]
@@ -2260,16 +2264,16 @@ void debug_int (s4_t v) {
  8001278:	210a      	movs	r1, #10
  800127a:	f000 f852 	bl	8001322 <debug_fmt>
  800127e:	61b8      	str	r0, [r7, #24]
-    while(n--)
+	while (n--)
  8001280:	e006      	b.n	8001290 <debug_int+0x36>
-        debug_char(*p++);
+		debug_char(*p++);
  8001282:	69fb      	ldr	r3, [r7, #28]
  8001284:	1c5a      	adds	r2, r3, #1
  8001286:	61fa      	str	r2, [r7, #28]
  8001288:	781b      	ldrb	r3, [r3, #0]
  800128a:	4618      	mov	r0, r3
  800128c:	f7ff ff94 	bl	80011b8 <debug_char>
-    while(n--)
+	while (n--)
  8001290:	69bb      	ldr	r3, [r7, #24]
  8001292:	1e5a      	subs	r2, r3, #1
  8001294:	61ba      	str	r2, [r7, #24]
@@ -2284,26 +2288,27 @@ void debug_int (s4_t v) {
 
 080012a4 <debug_str>:
 
-void debug_str (const char* str) {
+void debug_str(const char *str)
+{
  80012a4:	b580      	push	{r7, lr}
  80012a6:	b082      	sub	sp, #8
  80012a8:	af00      	add	r7, sp, #0
  80012aa:	6078      	str	r0, [r7, #4]
-    while(*str) {
+	while (*str) {
  80012ac:	e006      	b.n	80012bc <debug_str+0x18>
-        debug_char(*str++);
+		debug_char(*str++);
  80012ae:	687b      	ldr	r3, [r7, #4]
  80012b0:	1c5a      	adds	r2, r3, #1
  80012b2:	607a      	str	r2, [r7, #4]
  80012b4:	781b      	ldrb	r3, [r3, #0]
  80012b6:	4618      	mov	r0, r3
  80012b8:	f7ff ff7e 	bl	80011b8 <debug_char>
-    while(*str) {
+	while (*str) {
  80012bc:	687b      	ldr	r3, [r7, #4]
  80012be:	781b      	ldrb	r3, [r3, #0]
  80012c0:	2b00      	cmp	r3, #0
  80012c2:	d1f4      	bne.n	80012ae <debug_str+0xa>
-    }
+	}
 }
  80012c4:	bf00      	nop
  80012c6:	bf00      	nop
@@ -2312,23 +2317,27 @@ void debug_str (const char* str) {
  80012cc:	bd80      	pop	{r7, pc}
 
 080012ce <debug_val>:
+	debug_char('\r');
+	debug_char('\n');
+}
 
-void debug_val (const char* label, u4_t val) {
+void debug_val(const char *label, u4_t val)
+{
  80012ce:	b580      	push	{r7, lr}
  80012d0:	b082      	sub	sp, #8
  80012d2:	af00      	add	r7, sp, #0
  80012d4:	6078      	str	r0, [r7, #4]
  80012d6:	6039      	str	r1, [r7, #0]
-    debug_str(label);
+	debug_str(label);
  80012d8:	6878      	ldr	r0, [r7, #4]
  80012da:	f7ff ffe3 	bl	80012a4 <debug_str>
-    debug_uint(val);
+	debug_uint(val);
  80012de:	6838      	ldr	r0, [r7, #0]
  80012e0:	f7ff ff9e 	bl	8001220 <debug_uint>
-    debug_char('\r');
+	debug_char('\r');
  80012e4:	200d      	movs	r0, #13
  80012e6:	f7ff ff67 	bl	80011b8 <debug_char>
-    debug_char('\n');
+	debug_char('\n');
  80012ea:	200a      	movs	r0, #10
  80012ec:	f7ff ff64 	bl	80011b8 <debug_char>
 }
@@ -2339,22 +2348,23 @@ void debug_val (const char* label, u4_t val) {
 
 080012f8 <debug_valdec>:
 
-void debug_valdec (const char* label, s4_t val) {
+void debug_valdec(const char *label, s4_t val)
+{
  80012f8:	b580      	push	{r7, lr}
  80012fa:	b082      	sub	sp, #8
  80012fc:	af00      	add	r7, sp, #0
  80012fe:	6078      	str	r0, [r7, #4]
  8001300:	6039      	str	r1, [r7, #0]
-    debug_str(label);
+	debug_str(label);
  8001302:	6878      	ldr	r0, [r7, #4]
  8001304:	f7ff ffce 	bl	80012a4 <debug_str>
-    debug_int(val);
+	debug_int(val);
  8001308:	6838      	ldr	r0, [r7, #0]
  800130a:	f7ff ffa6 	bl	800125a <debug_int>
-    debug_char('\r');
+	debug_char('\r');
  800130e:	200d      	movs	r0, #13
  8001310:	f7ff ff52 	bl	80011b8 <debug_char>
-    debug_char('\n');
+	debug_char('\n');
  8001314:	200a      	movs	r0, #10
  8001316:	f7ff ff4f 	bl	80011b8 <debug_char>
 }
@@ -2365,7 +2375,8 @@ void debug_valdec (const char* label, s4_t val) {
 
 08001322 <debug_fmt>:
 
-int debug_fmt (char* buf, int max, s4_t val, int base, int width, char pad) {
+int debug_fmt(char *buf, int max, s4_t val, int base, int width, char pad)
+{
  8001322:	b480      	push	{r7}
  8001324:	b093      	sub	sp, #76	@ 0x4c
  8001326:	af00      	add	r7, sp, #0
@@ -2373,14 +2384,14 @@ int debug_fmt (char* buf, int max, s4_t val, int base, int width, char pad) {
  800132a:	60b9      	str	r1, [r7, #8]
  800132c:	607a      	str	r2, [r7, #4]
  800132e:	603b      	str	r3, [r7, #0]
-    char num[33], *p = num, *b = buf;
+	char num[33], *p = num, *b = buf;
  8001330:	f107 0314 	add.w	r3, r7, #20
  8001334:	647b      	str	r3, [r7, #68]	@ 0x44
  8001336:	68fb      	ldr	r3, [r7, #12]
  8001338:	643b      	str	r3, [r7, #64]	@ 0x40
-    u4_t m, v;
-    // special handling of negative decimals
-    v = (base == 10 && val < 0) ? -val : val;
+	u4_t m, v;
+	// special handling of negative decimals
+	v = (base == 10 && val < 0) ? -val : val;
  800133a:	683b      	ldr	r3, [r7, #0]
  800133c:	2b0a      	cmp	r3, #10
  800133e:	d105      	bne.n	800134c <debug_fmt+0x2a>
@@ -2392,9 +2403,9 @@ int debug_fmt (char* buf, int max, s4_t val, int base, int width, char pad) {
  800134a:	e000      	b.n	800134e <debug_fmt+0x2c>
  800134c:	687b      	ldr	r3, [r7, #4]
  800134e:	63fb      	str	r3, [r7, #60]	@ 0x3c
-    // generate digits backwards
-    do {
-        *p++ = ((m=v%base) <= 9) ? m+'0' : m+'A'-10;
+	// generate digits backwards
+	do {
+		*p++ = ((m = v % base) <= 9) ? m + '0' : m + 'A' - 10;
  8001350:	683a      	ldr	r2, [r7, #0]
  8001352:	6bfb      	ldr	r3, [r7, #60]	@ 0x3c
  8001354:	fbb3 f1f2 	udiv	r1, r3, r2
@@ -2417,7 +2428,7 @@ int debug_fmt (char* buf, int max, s4_t val, int base, int width, char pad) {
  800137a:	1c59      	adds	r1, r3, #1
  800137c:	6479      	str	r1, [r7, #68]	@ 0x44
  800137e:	701a      	strb	r2, [r3, #0]
-    } while( v /= base );
+	} while (v /= base);
  8001380:	683b      	ldr	r3, [r7, #0]
  8001382:	6bfa      	ldr	r2, [r7, #60]	@ 0x3c
  8001384:	fbb2 f3f3 	udiv	r3, r2, r3
@@ -2425,31 +2436,31 @@ int debug_fmt (char* buf, int max, s4_t val, int base, int width, char pad) {
  800138a:	6bfb      	ldr	r3, [r7, #60]	@ 0x3c
  800138c:	2b00      	cmp	r3, #0
  800138e:	d1df      	bne.n	8001350 <debug_fmt+0x2e>
-    // prefix negative decimals with '-'
-    if(base == 10 && val < 0) {
+	// prefix negative decimals with '-'
+	if (base == 10 && val < 0) {
  8001390:	683b      	ldr	r3, [r7, #0]
  8001392:	2b0a      	cmp	r3, #10
  8001394:	d10e      	bne.n	80013b4 <debug_fmt+0x92>
  8001396:	687b      	ldr	r3, [r7, #4]
  8001398:	2b00      	cmp	r3, #0
  800139a:	da0b      	bge.n	80013b4 <debug_fmt+0x92>
-        *p++ = '-';
+		*p++ = '-';
  800139c:	6c7b      	ldr	r3, [r7, #68]	@ 0x44
  800139e:	1c5a      	adds	r2, r3, #1
  80013a0:	647a      	str	r2, [r7, #68]	@ 0x44
  80013a2:	222d      	movs	r2, #45	@ 0x2d
  80013a4:	701a      	strb	r2, [r3, #0]
-    }
-    // add leading zeroes or spaces
-    while( b-buf < max-1 && b-buf < width-(p-num) ) {
+	}
+	// add leading zeroes or spaces
+	while (b - buf < max - 1 && b - buf < width - (p - num)) {
  80013a6:	e005      	b.n	80013b4 <debug_fmt+0x92>
-        *b++ = pad;
+		*b++ = pad;
  80013a8:	6c3b      	ldr	r3, [r7, #64]	@ 0x40
  80013aa:	1c5a      	adds	r2, r3, #1
  80013ac:	643a      	str	r2, [r7, #64]	@ 0x40
  80013ae:	f897 2054 	ldrb.w	r2, [r7, #84]	@ 0x54
  80013b2:	701a      	strb	r2, [r3, #0]
-    while( b-buf < max-1 && b-buf < width-(p-num) ) {
+	while (b - buf < max - 1 && b - buf < width - (p - num)) {
  80013b4:	6c3a      	ldr	r2, [r7, #64]	@ 0x40
  80013b6:	68fb      	ldr	r3, [r7, #12]
  80013b8:	1ad2      	subs	r2, r2, r3
@@ -2467,9 +2478,10 @@ int debug_fmt (char* buf, int max, s4_t val, int base, int width, char pad) {
  80013d2:	1acb      	subs	r3, r1, r3
  80013d4:	429a      	cmp	r2, r3
  80013d6:	dbe7      	blt.n	80013a8 <debug_fmt+0x86>
-    }
-    // copy digits and sign forwards
-    do *b++ = *--p;
+	}
+	// copy digits and sign forwards
+	do
+		*b++ = *--p;
  80013d8:	6c7b      	ldr	r3, [r7, #68]	@ 0x44
  80013da:	3b01      	subs	r3, #1
  80013dc:	647b      	str	r3, [r7, #68]	@ 0x44
@@ -2479,7 +2491,7 @@ int debug_fmt (char* buf, int max, s4_t val, int base, int width, char pad) {
  80013e4:	6c7a      	ldr	r2, [r7, #68]	@ 0x44
  80013e6:	7812      	ldrb	r2, [r2, #0]
  80013e8:	701a      	strb	r2, [r3, #0]
-    while( b-buf < max && p > num );
+	while (b - buf < max && p > num);
  80013ea:	6c3a      	ldr	r2, [r7, #64]	@ 0x40
  80013ec:	68fb      	ldr	r3, [r7, #12]
  80013ee:	1ad3      	subs	r3, r2, r3
@@ -2490,8 +2502,8 @@ int debug_fmt (char* buf, int max, s4_t val, int base, int width, char pad) {
  80013fa:	6c7a      	ldr	r2, [r7, #68]	@ 0x44
  80013fc:	429a      	cmp	r2, r3
  80013fe:	d8eb      	bhi.n	80013d8 <debug_fmt+0xb6>
-    // return number of characters written
-    return b - buf;
+	// return number of characters written
+	return b - buf;
  8001400:	6c3a      	ldr	r2, [r7, #64]	@ 0x40
  8001402:	68fb      	ldr	r3, [r7, #12]
  8001404:	1ad3      	subs	r3, r2, r3
@@ -2505,18 +2517,20 @@ int debug_fmt (char* buf, int max, s4_t val, int base, int width, char pad) {
 
 08001414 <debug_event>:
 
-void debug_event (int ev) {
+void debug_event(int ev)
+{
  8001414:	b580      	push	{r7, lr}
  8001416:	b082      	sub	sp, #8
  8001418:	af00      	add	r7, sp, #0
  800141a:	6078      	str	r0, [r7, #4]
-        [EV_LINK_DEAD]      = "LINK_DEAD",
-        [EV_LINK_ALIVE]     = "LINK_ALIVE",
-        [EV_SCAN_FOUND]     = "SCAN_FOUND",
-        [EV_TXSTART]        = "EV_TXSTART",
-    };
-    debug_str((ev < sizeof(evnames)/sizeof(evnames[0])) ? evnames[ev] : "EV_UNKNOWN" );
+			[EV_TXCOMPLETE] = "TXCOMPLETE", [EV_LOST_TSYNC] = "LOST_TSYNC",
+			[EV_RESET] = "RESET", [EV_RXCOMPLETE] = "RXCOMPLETE", [EV_LINK_DEAD
+					] = "LINK_DEAD", [EV_LINK_ALIVE] = "LINK_ALIVE",
+			[EV_SCAN_FOUND] = "SCAN_FOUND", [EV_TXSTART] = "EV_TXSTART", };
+	debug_str(
+			(ev < sizeof(evnames) / sizeof(evnames[0])) ?
  800141c:	687b      	ldr	r3, [r7, #4]
+	debug_str(
  800141e:	2b11      	cmp	r3, #17
  8001420:	d804      	bhi.n	800142c <debug_event+0x18>
  8001422:	4a09      	ldr	r2, [pc, #36]	@ (8001448 <debug_event+0x34>)
@@ -2526,10 +2540,11 @@ void debug_event (int ev) {
  800142c:	4b07      	ldr	r3, [pc, #28]	@ (800144c <debug_event+0x38>)
  800142e:	4618      	mov	r0, r3
  8001430:	f7ff ff38 	bl	80012a4 <debug_str>
-    debug_char('\r');
+					evnames[ev] : "EV_UNKNOWN");
+	debug_char('\r');
  8001434:	200d      	movs	r0, #13
  8001436:	f7ff febf 	bl	80011b8 <debug_char>
-    debug_char('\n');
+	debug_char('\n');
  800143a:	200a      	movs	r0, #10
  800143c:	f7ff febc 	bl	80011b8 <debug_char>
 }
@@ -3137,7 +3152,6 @@ u1_t hal_checkTimer(u4_t time)
 
 080017c4 <hal_disableIRQs>:
 
-
 // -----------------------------------------------------------------------------
 // IRQ
 void hal_disableIRQs()
@@ -3265,21 +3279,23 @@ void hal_failed()
  8001856:	e7fd      	b.n	8001854 <hal_failed+0xc>
 
 08001858 <getSf>:
-typedef u4_t devaddr_t;
+enum {
+	RSSI_OFF = 64, SNR_SCALEUP = 4
+};
 
-// RX quality (device)
-enum { RSSI_OFF=64, SNR_SCALEUP=4 };
-
-inline sf_t  getSf   (rps_t params)            { return   (sf_t)(params &  0x7); }
+inline sf_t getSf(rps_t params)
+{
  8001858:	b480      	push	{r7}
  800185a:	b083      	sub	sp, #12
  800185c:	af00      	add	r7, sp, #0
  800185e:	4603      	mov	r3, r0
  8001860:	80fb      	strh	r3, [r7, #6]
+	return (sf_t) (params & 0x7);
  8001862:	88fb      	ldrh	r3, [r7, #6]
  8001864:	b2db      	uxtb	r3, r3
  8001866:	f003 0307 	and.w	r3, r3, #7
  800186a:	b2db      	uxtb	r3, r3
+}
  800186c:	4618      	mov	r0, r3
  800186e:	370c      	adds	r7, #12
  8001870:	46bd      	mov	sp, r7
@@ -3287,19 +3303,25 @@ inline sf_t  getSf   (rps_t params)            { return   (sf_t)(params &  0x7);
  8001876:	4770      	bx	lr
 
 08001878 <getBw>:
-inline rps_t setSf   (rps_t params, sf_t sf)   { return (rps_t)((params & ~0x7) | sf); }
-inline bw_t  getBw   (rps_t params)            { return  (bw_t)((params >> 3) & 0x3); }
+inline rps_t setSf(rps_t params, sf_t sf)
+{
+	return (rps_t) ((params & ~0x7) | sf);
+}
+inline bw_t getBw(rps_t params)
+{
  8001878:	b480      	push	{r7}
  800187a:	b083      	sub	sp, #12
  800187c:	af00      	add	r7, sp, #0
  800187e:	4603      	mov	r3, r0
  8001880:	80fb      	strh	r3, [r7, #6]
+	return (bw_t) ((params >> 3) & 0x3);
  8001882:	88fb      	ldrh	r3, [r7, #6]
  8001884:	08db      	lsrs	r3, r3, #3
  8001886:	b29b      	uxth	r3, r3
  8001888:	b2db      	uxtb	r3, r3
  800188a:	f003 0303 	and.w	r3, r3, #3
  800188e:	b2db      	uxtb	r3, r3
+}
  8001890:	4618      	mov	r0, r3
  8001892:	370c      	adds	r7, #12
  8001894:	46bd      	mov	sp, r7
@@ -3307,19 +3329,25 @@ inline bw_t  getBw   (rps_t params)            { return  (bw_t)((params >> 3) & 
  800189a:	4770      	bx	lr
 
 0800189c <getCr>:
-inline rps_t setBw   (rps_t params, bw_t cr)   { return (rps_t)((params & ~0x18) | (cr<<3)); }
-inline cr_t  getCr   (rps_t params)            { return  (cr_t)((params >> 5) & 0x3); }
+inline rps_t setBw(rps_t params, bw_t cr)
+{
+	return (rps_t) ((params & ~0x18) | (cr << 3));
+}
+inline cr_t getCr(rps_t params)
+{
  800189c:	b480      	push	{r7}
  800189e:	b083      	sub	sp, #12
  80018a0:	af00      	add	r7, sp, #0
  80018a2:	4603      	mov	r3, r0
  80018a4:	80fb      	strh	r3, [r7, #6]
+	return (cr_t) ((params >> 5) & 0x3);
  80018a6:	88fb      	ldrh	r3, [r7, #6]
  80018a8:	095b      	lsrs	r3, r3, #5
  80018aa:	b29b      	uxth	r3, r3
  80018ac:	b2db      	uxtb	r3, r3
  80018ae:	f003 0303 	and.w	r3, r3, #3
  80018b2:	b2db      	uxtb	r3, r3
+}
  80018b4:	4618      	mov	r0, r3
  80018b6:	370c      	adds	r7, #12
  80018b8:	46bd      	mov	sp, r7
@@ -3327,7 +3355,8 @@ inline cr_t  getCr   (rps_t params)            { return  (cr_t)((params >> 5) & 
  80018be:	4770      	bx	lr
 
 080018c0 <setCr>:
-inline rps_t setCr   (rps_t params, cr_t cr)   { return (rps_t)((params & ~0x60) | (cr<<5)); }
+inline rps_t setCr(rps_t params, cr_t cr)
+{
  80018c0:	b480      	push	{r7}
  80018c2:	b083      	sub	sp, #12
  80018c4:	af00      	add	r7, sp, #0
@@ -3336,6 +3365,7 @@ inline rps_t setCr   (rps_t params, cr_t cr)   { return (rps_t)((params & ~0x60)
  80018ca:	80fb      	strh	r3, [r7, #6]
  80018cc:	4613      	mov	r3, r2
  80018ce:	717b      	strb	r3, [r7, #5]
+	return (rps_t) ((params & ~0x60) | (cr << 5));
  80018d0:	f9b7 3006 	ldrsh.w	r3, [r7, #6]
  80018d4:	f023 0360 	bic.w	r3, r3, #96	@ 0x60
  80018d8:	b21a      	sxth	r2, r3
@@ -3345,6 +3375,7 @@ inline rps_t setCr   (rps_t params, cr_t cr)   { return (rps_t)((params & ~0x60)
  80018e0:	4313      	orrs	r3, r2
  80018e2:	b21b      	sxth	r3, r3
  80018e4:	b29b      	uxth	r3, r3
+}
  80018e6:	4618      	mov	r0, r3
  80018e8:	370c      	adds	r7, #12
  80018ea:	46bd      	mov	sp, r7
@@ -3352,16 +3383,19 @@ inline rps_t setCr   (rps_t params, cr_t cr)   { return (rps_t)((params & ~0x60)
  80018f0:	4770      	bx	lr
 
 080018f2 <getNocrc>:
-inline int   getNocrc(rps_t params)            { return        ((params >> 7) & 0x1); }
+inline int getNocrc(rps_t params)
+{
  80018f2:	b480      	push	{r7}
  80018f4:	b083      	sub	sp, #12
  80018f6:	af00      	add	r7, sp, #0
  80018f8:	4603      	mov	r3, r0
  80018fa:	80fb      	strh	r3, [r7, #6]
+	return ((params >> 7) & 0x1);
  80018fc:	88fb      	ldrh	r3, [r7, #6]
  80018fe:	09db      	lsrs	r3, r3, #7
  8001900:	b29b      	uxth	r3, r3
  8001902:	f003 0301 	and.w	r3, r3, #1
+}
  8001906:	4618      	mov	r0, r3
  8001908:	370c      	adds	r7, #12
  800190a:	46bd      	mov	sp, r7
@@ -3369,13 +3403,15 @@ inline int   getNocrc(rps_t params)            { return        ((params >> 7) & 
  8001910:	4770      	bx	lr
 
 08001912 <setNocrc>:
-inline rps_t setNocrc(rps_t params, int nocrc) { return (rps_t)((params & ~0x80) | (nocrc<<7)); }
+inline rps_t setNocrc(rps_t params, int nocrc)
+{
  8001912:	b480      	push	{r7}
  8001914:	b083      	sub	sp, #12
  8001916:	af00      	add	r7, sp, #0
  8001918:	4603      	mov	r3, r0
  800191a:	6039      	str	r1, [r7, #0]
  800191c:	80fb      	strh	r3, [r7, #6]
+	return (rps_t) ((params & ~0x80) | (nocrc << 7));
  800191e:	f9b7 3006 	ldrsh.w	r3, [r7, #6]
  8001922:	f023 0380 	bic.w	r3, r3, #128	@ 0x80
  8001926:	b21a      	sxth	r2, r3
@@ -3385,6 +3421,7 @@ inline rps_t setNocrc(rps_t params, int nocrc) { return (rps_t)((params & ~0x80)
  800192e:	4313      	orrs	r3, r2
  8001930:	b21b      	sxth	r3, r3
  8001932:	b29b      	uxth	r3, r3
+}
  8001934:	4618      	mov	r0, r3
  8001936:	370c      	adds	r7, #12
  8001938:	46bd      	mov	sp, r7
@@ -3392,16 +3429,19 @@ inline rps_t setNocrc(rps_t params, int nocrc) { return (rps_t)((params & ~0x80)
  800193e:	4770      	bx	lr
 
 08001940 <getIh>:
-inline int   getIh   (rps_t params)            { return        ((params >> 8) & 0xFF); }
+inline int getIh(rps_t params)
+{
  8001940:	b480      	push	{r7}
  8001942:	b083      	sub	sp, #12
  8001944:	af00      	add	r7, sp, #0
  8001946:	4603      	mov	r3, r0
  8001948:	80fb      	strh	r3, [r7, #6]
+	return ((params >> 8) & 0xFF);
  800194a:	88fb      	ldrh	r3, [r7, #6]
  800194c:	0a1b      	lsrs	r3, r3, #8
  800194e:	b29b      	uxth	r3, r3
  8001950:	b2db      	uxtb	r3, r3
+}
  8001952:	4618      	mov	r0, r3
  8001954:	370c      	adds	r7, #12
  8001956:	46bd      	mov	sp, r7
@@ -3409,13 +3449,15 @@ inline int   getIh   (rps_t params)            { return        ((params >> 8) & 
  800195c:	4770      	bx	lr
 
 0800195e <setIh>:
-inline rps_t setIh   (rps_t params, int ih)    { return (rps_t)((params & ~0xFF00) | (ih<<8)); }
+inline rps_t setIh(rps_t params, int ih)
+{
  800195e:	b480      	push	{r7}
  8001960:	b083      	sub	sp, #12
  8001962:	af00      	add	r7, sp, #0
  8001964:	4603      	mov	r3, r0
  8001966:	6039      	str	r1, [r7, #0]
  8001968:	80fb      	strh	r3, [r7, #6]
+	return (rps_t) ((params & ~0xFF00) | (ih << 8));
  800196a:	f9b7 3006 	ldrsh.w	r3, [r7, #6]
  800196e:	b2db      	uxtb	r3, r3
  8001970:	b21a      	sxth	r2, r3
@@ -3425,6 +3467,7 @@ inline rps_t setIh   (rps_t params, int ih)    { return (rps_t)((params & ~0xFF0
  8001978:	4313      	orrs	r3, r2
  800197a:	b21b      	sxth	r3, r3
  800197c:	b29b      	uxth	r3, r3
+}
  800197e:	4618      	mov	r0, r3
  8001980:	370c      	adds	r7, #12
  8001982:	46bd      	mov	sp, r7
@@ -3433,21 +3476,23 @@ inline rps_t setIh   (rps_t params, int ih)    { return (rps_t)((params & ~0xFF0
 	...
 
 0800198c <updr2rps>:
-#define MAKERPS(sf,bw,cr,ih,nocrc) ((rps_t)((sf) | ((bw)<<3) | ((cr)<<5) | ((nocrc)?(1<<7):0) | ((ih&0xFF)<<8)))
-// Two frames with params r1/r2 would interfere on air: same SFx + BWx 
-inline int sameSfBw(rps_t r1, rps_t r2) { return ((r1^r2)&0x1F) == 0; }
+	return ((r1 ^ r2) & 0x1F) == 0;
+}
 
 extern const u1_t _DR2RPS_CRC[];
-inline rps_t updr2rps (dr_t dr) { return (rps_t)_DR2RPS_CRC[dr+1]; }
+inline rps_t updr2rps(dr_t dr)
+{
  800198c:	b480      	push	{r7}
  800198e:	b083      	sub	sp, #12
  8001990:	af00      	add	r7, sp, #0
  8001992:	4603      	mov	r3, r0
  8001994:	71fb      	strb	r3, [r7, #7]
+	return (rps_t) _DR2RPS_CRC[dr + 1];
  8001996:	79fb      	ldrb	r3, [r7, #7]
  8001998:	3301      	adds	r3, #1
  800199a:	4a04      	ldr	r2, [pc, #16]	@ (80019ac <updr2rps+0x20>)
  800199c:	5cd3      	ldrb	r3, [r2, r3]
+}
  800199e:	4618      	mov	r0, r3
  80019a0:	370c      	adds	r7, #12
  80019a2:	46bd      	mov	sp, r7
@@ -3457,12 +3502,14 @@ inline rps_t updr2rps (dr_t dr) { return (rps_t)_DR2RPS_CRC[dr+1]; }
  80019ac:	0800bc9c 	.word	0x0800bc9c
 
 080019b0 <dndr2rps>:
-inline rps_t dndr2rps (dr_t dr) { return setNocrc(updr2rps(dr),1); }
+inline rps_t dndr2rps(dr_t dr)
+{
  80019b0:	b580      	push	{r7, lr}
  80019b2:	b082      	sub	sp, #8
  80019b4:	af00      	add	r7, sp, #0
  80019b6:	4603      	mov	r3, r0
  80019b8:	71fb      	strb	r3, [r7, #7]
+	return setNocrc(updr2rps(dr), 1);
  80019ba:	79fb      	ldrb	r3, [r7, #7]
  80019bc:	4618      	mov	r0, r3
  80019be:	f7ff ffe5 	bl	800198c <updr2rps>
@@ -3471,6 +3518,7 @@ inline rps_t dndr2rps (dr_t dr) { return setNocrc(updr2rps(dr),1); }
  80019c6:	4618      	mov	r0, r3
  80019c8:	f7ff ffa3 	bl	8001912 <setNocrc>
  80019cc:	4603      	mov	r3, r0
+}
  80019ce:	4618      	mov	r0, r3
  80019d0:	3708      	adds	r7, #8
  80019d2:	46bd      	mov	sp, r7
@@ -3478,15 +3526,18 @@ inline rps_t dndr2rps (dr_t dr) { return setNocrc(updr2rps(dr),1); }
 	...
 
 080019d8 <decDR>:
-inline int isFasterDR (dr_t dr1, dr_t dr2) { return dr1 > dr2; }
-inline int isSlowerDR (dr_t dr1, dr_t dr2) { return dr1 < dr2; }
-inline dr_t  incDR    (dr_t dr) { return _DR2RPS_CRC[dr+2]==ILLEGAL_RPS ? dr : (dr_t)(dr+1); } // increase data rate
-inline dr_t  decDR    (dr_t dr) { return _DR2RPS_CRC[dr  ]==ILLEGAL_RPS ? dr : (dr_t)(dr-1); } // decrease data rate
+inline dr_t incDR(dr_t dr)
+{
+	return _DR2RPS_CRC[dr + 2] == ILLEGAL_RPS ? dr : (dr_t) (dr + 1);
+} // increase data rate
+inline dr_t decDR(dr_t dr)
+{
  80019d8:	b480      	push	{r7}
  80019da:	b083      	sub	sp, #12
  80019dc:	af00      	add	r7, sp, #0
  80019de:	4603      	mov	r3, r0
  80019e0:	71fb      	strb	r3, [r7, #7]
+	return _DR2RPS_CRC[dr] == ILLEGAL_RPS ? dr : (dr_t) (dr - 1);
  80019e2:	79fb      	ldrb	r3, [r7, #7]
  80019e4:	4a07      	ldr	r2, [pc, #28]	@ (8001a04 <decDR+0x2c>)
  80019e6:	5cd3      	ldrb	r3, [r2, r3]
@@ -3497,6 +3548,7 @@ inline dr_t  decDR    (dr_t dr) { return _DR2RPS_CRC[dr  ]==ILLEGAL_RPS ? dr : (
  80019f0:	b2db      	uxtb	r3, r3
  80019f2:	e000      	b.n	80019f6 <decDR+0x1e>
  80019f4:	79fb      	ldrb	r3, [r7, #7]
+} // decrease data rate
  80019f6:	4618      	mov	r0, r3
  80019f8:	370c      	adds	r7, #12
  80019fa:	46bd      	mov	sp, r7
@@ -3506,13 +3558,18 @@ inline dr_t  decDR    (dr_t dr) { return _DR2RPS_CRC[dr  ]==ILLEGAL_RPS ? dr : (
  8001a04:	0800bc9c 	.word	0x0800bc9c
 
 08001a08 <validDR>:
-inline dr_t  assertDR (dr_t dr) { return _DR2RPS_CRC[dr+1]==ILLEGAL_RPS ? DR_DFLTMIN : dr; }   // force into a valid DR
-inline bit_t validDR  (dr_t dr) { return _DR2RPS_CRC[dr+1]!=ILLEGAL_RPS; } // in range
+inline dr_t assertDR(dr_t dr)
+{
+	return _DR2RPS_CRC[dr + 1] == ILLEGAL_RPS ? DR_DFLTMIN : dr;
+}   // force into a valid DR
+inline bit_t validDR(dr_t dr)
+{
  8001a08:	b480      	push	{r7}
  8001a0a:	b083      	sub	sp, #12
  8001a0c:	af00      	add	r7, sp, #0
  8001a0e:	4603      	mov	r3, r0
  8001a10:	71fb      	strb	r3, [r7, #7]
+	return _DR2RPS_CRC[dr + 1] != ILLEGAL_RPS;
  8001a12:	79fb      	ldrb	r3, [r7, #7]
  8001a14:	3301      	adds	r3, #1
  8001a16:	4a06      	ldr	r2, [pc, #24]	@ (8001a30 <validDR+0x28>)
@@ -3522,6 +3579,7 @@ inline bit_t validDR  (dr_t dr) { return _DR2RPS_CRC[dr+1]!=ILLEGAL_RPS; } // in
  8001a1e:	2301      	movne	r3, #1
  8001a20:	2300      	moveq	r3, #0
  8001a22:	b2db      	uxtb	r3, r3
+} // in range
  8001a24:	4618      	mov	r0, r3
  8001a26:	370c      	adds	r7, #12
  8001a28:	46bd      	mov	sp, r7
@@ -3530,7 +3588,8 @@ inline bit_t validDR  (dr_t dr) { return _DR2RPS_CRC[dr+1]!=ILLEGAL_RPS; } // in
  8001a30:	0800bc9c 	.word	0x0800bc9c
 
 08001a34 <lowerDR>:
-inline dr_t  lowerDR  (dr_t dr, u1_t n) { while(n--){dr=decDR(dr);} return dr; } // decrease data rate by n steps
+inline dr_t lowerDR(dr_t dr, u1_t n)
+{
  8001a34:	b580      	push	{r7, lr}
  8001a36:	b082      	sub	sp, #8
  8001a38:	af00      	add	r7, sp, #0
@@ -3539,18 +3598,24 @@ inline dr_t  lowerDR  (dr_t dr, u1_t n) { while(n--){dr=decDR(dr);} return dr; }
  8001a3e:	71fb      	strb	r3, [r7, #7]
  8001a40:	4613      	mov	r3, r2
  8001a42:	71bb      	strb	r3, [r7, #6]
+	while (n--) {
  8001a44:	e005      	b.n	8001a52 <lowerDR+0x1e>
+		dr = decDR(dr);
  8001a46:	79fb      	ldrb	r3, [r7, #7]
  8001a48:	4618      	mov	r0, r3
  8001a4a:	f7ff ffc5 	bl	80019d8 <decDR>
  8001a4e:	4603      	mov	r3, r0
  8001a50:	71fb      	strb	r3, [r7, #7]
+	while (n--) {
  8001a52:	79bb      	ldrb	r3, [r7, #6]
  8001a54:	1e5a      	subs	r2, r3, #1
  8001a56:	71ba      	strb	r2, [r7, #6]
  8001a58:	2b00      	cmp	r3, #0
  8001a5a:	d1f4      	bne.n	8001a46 <lowerDR+0x12>
+	}
+	return dr;
  8001a5c:	79fb      	ldrb	r3, [r7, #7]
+} // decrease data rate by n steps
  8001a5e:	4618      	mov	r0, r3
  8001a60:	3708      	adds	r7, #8
  8001a62:	46bd      	mov	sp, r7
@@ -5796,8 +5861,8 @@ static void initJoinLoop (void) {
  8002a0e:	4b10      	ldr	r3, [pc, #64]	@ (8002a50 <initJoinLoop+0x68>)
  8002a10:	220e      	movs	r2, #14
  8002a12:	f883 20af 	strb.w	r2, [r3, #175]	@ 0xaf
-    setDrJoin(DRCHG_SET, DR_SF12);
- 8002a16:	2100      	movs	r1, #0
+    setDrJoin(DRCHG_SET, DR_SF7);
+ 8002a16:	2105      	movs	r1, #5
  8002a18:	2000      	movs	r0, #0
  8002a1a:	f7ff fd2b 	bl	8002474 <setDrJoin>
     initDefaultChannels(1);
@@ -10367,9 +10432,9 @@ static void reportfunc(osjob_t *j)
  8004a94:	4b0d      	ldr	r3, [pc, #52]	@ (8004acc <reportfunc+0x80>)
  8004a96:	f883 214b 	strb.w	r2, [r3, #331]	@ 0x14b
 	// La fonction LMIC_setTxData2 envoie
-	LMIC_setTxData2(1, LMIC.frame, 2, 0);
+	LMIC_setTxData2(1, LMIC.frame, 4, 0);
  8004a9a:	2300      	movs	r3, #0
- 8004a9c:	2202      	movs	r2, #2
+ 8004a9c:	2204      	movs	r2, #4
  8004a9e:	490d      	ldr	r1, [pc, #52]	@ (8004ad4 <reportfunc+0x88>)
  8004aa0:	2001      	movs	r0, #1
  8004aa2:	f7ff ff3d 	bl	8004920 <LMIC_setTxData2>

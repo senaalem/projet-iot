@@ -1,5 +1,6 @@
 "./Core/Src/adc.o"
 "./Core/Src/aes.o"
+"./Core/Src/cayenne_lpp.o"
 "./Core/Src/debug.o"
 "./Core/Src/gpio.o"
 "./Core/Src/hal.o"
