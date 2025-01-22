@@ -99,7 +99,8 @@ int8_t bme68x_single_measure(struct bme68x_data *dataPtr)
 	/* Calculate delay period in microseconds */
 	del_period = bme68x_get_meas_dur(BME68X_FORCED_MODE, &conf, &bme)
 			+ (heatr_conf.heatr_dur * 1000);
-	bme.delay_us(del_period, bme.intf_ptr);
+	// bme.delay_us(del_period, bme.intf_ptr);
+	HAL_Delay(del_period / 1000);
 
 	/* Check if rslt == BME68X_OK, report or handle if otherwise */
 	rslt = bme68x_get_data(BME68X_FORCED_MODE, dataPtr, &n_fields, &bme);
