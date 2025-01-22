@@ -29,6 +29,7 @@
 /* Necessary functions for BME68x API are defined here. (Functions that are hardware dependent.) */
 
 #include "bme68x_necessary_functions.h"
+#include "i2c.h"
 
 // I2C handler
 I2C_HandleTypeDef BME68x_I2C_Handler; // I2C peripheral for the device.

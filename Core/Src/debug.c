@@ -30,7 +30,7 @@
 #include "lmic.h"
 #include "usart.h" //  <--------- to add
 
-#define myUART huart1   //  <--------- change to your setup
+#define myUART huart2   //  <--------- change to your setup
 
 /*  ************************************** */
 /*    DO NOT CHANGE BELOW THIS LINE        */
