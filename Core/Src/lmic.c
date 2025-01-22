@@ -1150,7 +1150,7 @@ static bit_t decodeFrame(void)
 					== (0x80 | MCMD_DN2P_ANS_DRACK | MCMD_DN2P_ANS_CHACK)) {
 				LMIC.dn2Dr = dr;
 				LMIC.dn2Freq = freq;
-				DO_DEVDB(LMIC.dn2Dr,dn2Dr); DO_DEVDB(LMIC.dn2Freq,dn2Freq);
+				DO_DEVDB(LMIC.dn2Dr,dn2Dr);DO_DEVDB(LMIC.dn2Freq,dn2Freq);
 			}
 			continue;
 		}
@@ -1185,7 +1185,7 @@ static bit_t decodeFrame(void)
 			if (freq != 0) {
 				flags |= MCMD_PING_ANS_FQACK;
 				LMIC.ping.freq = freq;
-				DO_DEVDB(LMIC.ping.intvExp, pingIntvExp); DO_DEVDB(LMIC.ping.freq, pingFreq); DO_DEVDB(LMIC.ping.dr, pingDr);
+				DO_DEVDB(LMIC.ping.intvExp, pingIntvExp);DO_DEVDB(LMIC.ping.freq, pingFreq);DO_DEVDB(LMIC.ping.dr, pingDr);
 			}
 			LMIC.pingSetAns = flags;
 			continue;
@@ -1220,7 +1220,7 @@ static bit_t decodeFrame(void)
 			oidx += 4;
 			continue;
 		}
-		} EV(specCond, ERR, (e_.reason = EV::specCond_t::BAD_MAC_CMD,
+		}EV(specCond, ERR, (e_.reason = EV::specCond_t::BAD_MAC_CMD,
 						e_.eui = MAIN::CDEV->getEui(),
 						e_.info = Base::lsbf4(&d[pend]),
 						e_.info2 = Base::msbf4(&opts[oidx])));
@@ -1423,7 +1423,7 @@ static bit_t processJoinAccept(void)
 	// already incremented when JOIN REQ got sent off
 	aes_sessKeys(LMIC.devNonce - 1, &LMIC.frame[OFF_JA_ARTNONCE], LMIC.nwkKey,
 			LMIC.artKey);
-	DO_DEVDB(LMIC.netid, netid); DO_DEVDB(LMIC.devaddr, devaddr); DO_DEVDB(LMIC.nwkKey, nwkkey); DO_DEVDB(LMIC.artKey, artkey);
+	DO_DEVDB(LMIC.netid, netid);DO_DEVDB(LMIC.devaddr, devaddr);DO_DEVDB(LMIC.nwkKey, nwkkey);DO_DEVDB(LMIC.artKey, artkey);
 
 	EV(joininfo, INFO, (e_.arteui = MAIN::CDEV->getArtEui(),
 					e_.deveui = MAIN::CDEV->getEui(),
@@ -2120,7 +2120,7 @@ void LMIC_reset(void)
 #if defined(CFG_us915)
     initDefaultChannels();
 #endif
-	DO_DEVDB(LMIC.devaddr, devaddr); DO_DEVDB(LMIC.devNonce, devNonce); DO_DEVDB(LMIC.dn2Dr, dn2Dr); DO_DEVDB(LMIC.dn2Freq, dn2Freq); DO_DEVDB(LMIC.ping.freq, pingFreq); DO_DEVDB(LMIC.ping.dr, pingDr); DO_DEVDB(LMIC.ping.intvExp, pingIntvExp);
+	DO_DEVDB(LMIC.devaddr, devaddr);DO_DEVDB(LMIC.devNonce, devNonce);DO_DEVDB(LMIC.dn2Dr, dn2Dr);DO_DEVDB(LMIC.dn2Freq, dn2Freq);DO_DEVDB(LMIC.ping.freq, pingFreq);DO_DEVDB(LMIC.ping.dr, pingDr);DO_DEVDB(LMIC.ping.intvExp, pingIntvExp);
 }
 
 void LMIC_init(void)
@@ -2207,7 +2207,7 @@ void LMIC_setSession(u4_t netid, devaddr_t devaddr, xref2u1_t nwkKey,
 			| OP_PINGINI);
 	LMIC.opmode |= OP_NEXTCHNL;
 	stateJustJoined();
-	DO_DEVDB(LMIC.netid, netid); DO_DEVDB(LMIC.devaddr, devaddr); DO_DEVDB(LMIC.nwkKey, nwkkey); DO_DEVDB(LMIC.artKey, artkey); DO_DEVDB(LMIC.seqnoUp, seqnoUp); DO_DEVDB(LMIC.seqnoDn, seqnoDn);
+	DO_DEVDB(LMIC.netid, netid);DO_DEVDB(LMIC.devaddr, devaddr);DO_DEVDB(LMIC.nwkKey, nwkkey);DO_DEVDB(LMIC.artKey, artkey);DO_DEVDB(LMIC.seqnoUp, seqnoUp);DO_DEVDB(LMIC.seqnoDn, seqnoDn);
 }
 
 // Enable/disable link check validation.

@@ -27,44 +27,44 @@
 
 #include "oslmic.h"
 // intialize debug library
-void debug_init (void);
+void debug_init(void);
 
 // set LED state
-void debug_led (int val);
+void debug_led(int val);
 
 // write character to USART
-void debug_char (char c);
+void debug_char(char c);
 
 // write byte as two hex digits to USART
-void debug_hex (u1_t b);
+void debug_hex(u1_t b);
 
 // write buffer as hex dump to USART
-void debug_buf (const u1_t* buf, int len);
+void debug_buf(const u1_t *buf, int len);
 
 // write 32-bit integer as eight hex digits to USART
-void debug_uint (u4_t v);
+void debug_uint(u4_t v);
 
 // write 32-bit integer as signed decimal digits to USART
-void debug_int (s4_t v);
+void debug_int(s4_t v);
 
 // write nul-terminated string to USART
-void debug_str (const char* str);
+void debug_str(const char *str);
 
 // write LMiC event name to USART
-void debug_event (int ev);
+void debug_event(int ev);
 
 // convert float 'val' to string 'buf' with 'n' digits
-void debug_float2str (double val, int n);
+void debug_float2str(double val, int n);
 
 // write label and 32-bit value as float to USART
-void debug_valfloat (const char* label, double val, int n);
+void debug_valfloat(const char *label, double val, int n);
 
 // write label and 32-bit value as hex to USART
-void debug_val (const char* label, u4_t val);
+void debug_val(const char *label, u4_t val);
 
 // write label and 32-bit value as signed decimal to USART
-void debug_valdec (const char* label, s4_t val);
+void debug_valdec(const char *label, s4_t val);
 
 // convert integer 'val' to ASCII string (bin/oct/dec/hex/base36)
 // store string at 'buf', return number of characters written
-int debug_fmt (char* buf, int max, s4_t val, int base, int width, char pad);
+int debug_fmt(char *buf, int max, s4_t val, int base, int width, char pad);

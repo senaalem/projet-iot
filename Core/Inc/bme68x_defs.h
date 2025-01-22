@@ -1,40 +1,40 @@
 /**
-* Copyright (c) 2021 Bosch Sensortec GmbH. All rights reserved.
-*
-* BSD-3-Clause
-*
-* Redistribution and use in source and binary forms, with or without
-* modification, are permitted provided that the following conditions are met:
-*
-* 1. Redistributions of source code must retain the above copyright
-*    notice, this list of conditions and the following disclaimer.
-*
-* 2. Redistributions in binary form must reproduce the above copyright
-*    notice, this list of conditions and the following disclaimer in the
-*    documentation and/or other materials provided with the distribution.
-*
-* 3. Neither the name of the copyright holder nor the names of its
-*    contributors may be used to endorse or promote products derived from
-*    this software without specific prior written permission.
-*
-* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-* "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-* LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-* FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-* COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-* INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-* (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-* SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-* HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-* STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
-* IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-* POSSIBILITY OF SUCH DAMAGE.
-*
-* @file       bme68x_defs.h
-* @date       2021-04-26
-* @version    v4.4.5
-*
-*/
+ * Copyright (c) 2021 Bosch Sensortec GmbH. All rights reserved.
+ *
+ * BSD-3-Clause
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * 3. Neither the name of the copyright holder nor the names of its
+ *    contributors may be used to endorse or promote products derived from
+ *    this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
+ * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @file       bme68x_defs.h
+ * @date       2021-04-26
+ * @version    v4.4.5
+ *
+ */
 
 /*! @cond DOXYGEN_SUPRESS */
 
@@ -660,8 +660,8 @@
  * @retval 0 for Success
  * @retval Non-zero for Failure
  */
-typedef BME68X_INTF_RET_TYPE (*bme68x_read_fptr_t)(uint8_t reg_addr, uint8_t *reg_data, uint32_t length,
-                                                   void *intf_ptr);
+typedef BME68X_INTF_RET_TYPE (*bme68x_read_fptr_t)(uint8_t reg_addr,
+		uint8_t *reg_data, uint32_t length, void *intf_ptr);
 
 /*!
  * @brief Bus communication function pointer which should be mapped to
@@ -676,8 +676,8 @@ typedef BME68X_INTF_RET_TYPE (*bme68x_read_fptr_t)(uint8_t reg_addr, uint8_t *re
  * @retval Non-zero for Failure
  *
  */
-typedef BME68X_INTF_RET_TYPE (*bme68x_write_fptr_t)(uint8_t reg_addr, const uint8_t *reg_data, uint32_t length,
-                                                    void *intf_ptr);
+typedef BME68X_INTF_RET_TYPE (*bme68x_write_fptr_t)(uint8_t reg_addr,
+		const uint8_t *reg_data, uint32_t length, void *intf_ptr);
 
 /*!
  * @brief Delay function pointer which should be mapped to
@@ -704,10 +704,10 @@ typedef void (*bme68x_delay_us_fptr_t)(uint32_t period, void *intf_ptr);
  * @brief Interface selection Enumerations
  */
 enum bme68x_intf {
-    /*! SPI interface */
-    BME68X_SPI_INTF,
-    /*! I2C interface */
-    BME68X_I2C_INTF
+	/*! SPI interface */
+	BME68X_SPI_INTF,
+	/*! I2C interface */
+	BME68X_I2C_INTF
 };
 
 /* Structure definitions */
@@ -715,28 +715,27 @@ enum bme68x_intf {
 /*
  * @brief Sensor field data structure
  */
-struct bme68x_data
-{
-    /*! Contains new_data, gasm_valid & heat_stab */
-    uint8_t status;
+struct bme68x_data {
+	/*! Contains new_data, gasm_valid & heat_stab */
+	uint8_t status;
 
-    /*! The index of the heater profile used */
-    uint8_t gas_index;
+	/*! The index of the heater profile used */
+	uint8_t gas_index;
 
-    /*! Measurement index to track order */
-    uint8_t meas_index;
+	/*! Measurement index to track order */
+	uint8_t meas_index;
 
-    /*! Heater resistance */
-    uint8_t res_heat;
+	/*! Heater resistance */
+	uint8_t res_heat;
 
-    /*! Current DAC */
-    uint8_t idac;
+	/*! Current DAC */
+	uint8_t idac;
 
-    /*! Gas wait period */
-    uint8_t gas_wait;
+	/*! Gas wait period */
+	uint8_t gas_wait;
 
-    /*! IAQ -- USER ADDED */
-    float iaq_score;
+	/*! IAQ -- USER ADDED */
+	float iaq_score;
 
 #ifndef BME68X_USE_FPU
 
@@ -753,17 +752,17 @@ struct bme68x_data
     uint32_t gas_resistance;
 #else
 
-    /*! Temperature in degree celsius */
-    float temperature;
+	/*! Temperature in degree celsius */
+	float temperature;
 
-    /*! Pressure in Pascal */
-    float pressure;
+	/*! Pressure in Pascal */
+	float pressure;
 
-    /*! Humidity in % relative humidity x1000 */
-    float humidity;
+	/*! Humidity in % relative humidity x1000 */
+	float humidity;
 
-    /*! Gas resistance in Ohms */
-    float gas_resistance;
+	/*! Gas resistance in Ohms */
+	float gas_resistance;
 
 #endif
 
@@ -772,204 +771,200 @@ struct bme68x_data
 /*
  * @brief Structure to hold the calibration coefficients
  */
-struct bme68x_calib_data
-{
-    /*! Calibration coefficient for the humidity sensor */
-    uint16_t par_h1;
+struct bme68x_calib_data {
+	/*! Calibration coefficient for the humidity sensor */
+	uint16_t par_h1;
 
-    /*! Calibration coefficient for the humidity sensor */
-    uint16_t par_h2;
+	/*! Calibration coefficient for the humidity sensor */
+	uint16_t par_h2;
 
-    /*! Calibration coefficient for the humidity sensor */
-    int8_t par_h3;
+	/*! Calibration coefficient for the humidity sensor */
+	int8_t par_h3;
 
-    /*! Calibration coefficient for the humidity sensor */
-    int8_t par_h4;
+	/*! Calibration coefficient for the humidity sensor */
+	int8_t par_h4;
 
-    /*! Calibration coefficient for the humidity sensor */
-    int8_t par_h5;
+	/*! Calibration coefficient for the humidity sensor */
+	int8_t par_h5;
 
-    /*! Calibration coefficient for the humidity sensor */
-    uint8_t par_h6;
+	/*! Calibration coefficient for the humidity sensor */
+	uint8_t par_h6;
 
-    /*! Calibration coefficient for the humidity sensor */
-    int8_t par_h7;
+	/*! Calibration coefficient for the humidity sensor */
+	int8_t par_h7;
 
-    /*! Calibration coefficient for the gas sensor */
-    int8_t par_gh1;
+	/*! Calibration coefficient for the gas sensor */
+	int8_t par_gh1;
 
-    /*! Calibration coefficient for the gas sensor */
-    int16_t par_gh2;
+	/*! Calibration coefficient for the gas sensor */
+	int16_t par_gh2;
 
-    /*! Calibration coefficient for the gas sensor */
-    int8_t par_gh3;
+	/*! Calibration coefficient for the gas sensor */
+	int8_t par_gh3;
 
-    /*! Calibration coefficient for the temperature sensor */
-    uint16_t par_t1;
+	/*! Calibration coefficient for the temperature sensor */
+	uint16_t par_t1;
 
-    /*! Calibration coefficient for the temperature sensor */
-    int16_t par_t2;
+	/*! Calibration coefficient for the temperature sensor */
+	int16_t par_t2;
 
-    /*! Calibration coefficient for the temperature sensor */
-    int8_t par_t3;
+	/*! Calibration coefficient for the temperature sensor */
+	int8_t par_t3;
 
-    /*! Calibration coefficient for the pressure sensor */
-    uint16_t par_p1;
+	/*! Calibration coefficient for the pressure sensor */
+	uint16_t par_p1;
 
-    /*! Calibration coefficient for the pressure sensor */
-    int16_t par_p2;
+	/*! Calibration coefficient for the pressure sensor */
+	int16_t par_p2;
 
-    /*! Calibration coefficient for the pressure sensor */
-    int8_t par_p3;
+	/*! Calibration coefficient for the pressure sensor */
+	int8_t par_p3;
 
-    /*! Calibration coefficient for the pressure sensor */
-    int16_t par_p4;
+	/*! Calibration coefficient for the pressure sensor */
+	int16_t par_p4;
 
-    /*! Calibration coefficient for the pressure sensor */
-    int16_t par_p5;
+	/*! Calibration coefficient for the pressure sensor */
+	int16_t par_p5;
 
-    /*! Calibration coefficient for the pressure sensor */
-    int8_t par_p6;
+	/*! Calibration coefficient for the pressure sensor */
+	int8_t par_p6;
 
-    /*! Calibration coefficient for the pressure sensor */
-    int8_t par_p7;
+	/*! Calibration coefficient for the pressure sensor */
+	int8_t par_p7;
 
-    /*! Calibration coefficient for the pressure sensor */
-    int16_t par_p8;
+	/*! Calibration coefficient for the pressure sensor */
+	int16_t par_p8;
 
-    /*! Calibration coefficient for the pressure sensor */
-    int16_t par_p9;
+	/*! Calibration coefficient for the pressure sensor */
+	int16_t par_p9;
 
-    /*! Calibration coefficient for the pressure sensor */
-    uint8_t par_p10;
+	/*! Calibration coefficient for the pressure sensor */
+	uint8_t par_p10;
 #ifndef BME68X_USE_FPU
 
     /*! Variable to store the intermediate temperature coefficient */
     int32_t t_fine;
 #else
 
-    /*! Variable to store the intermediate temperature coefficient */
-    float t_fine;
+	/*! Variable to store the intermediate temperature coefficient */
+	float t_fine;
 #endif
 
-    /*! Heater resistance range coefficient */
-    uint8_t res_heat_range;
+	/*! Heater resistance range coefficient */
+	uint8_t res_heat_range;
 
-    /*! Heater resistance value coefficient */
-    int8_t res_heat_val;
+	/*! Heater resistance value coefficient */
+	int8_t res_heat_val;
 
-    /*! Gas resistance range switching error coefficient */
-    int8_t range_sw_err;
+	/*! Gas resistance range switching error coefficient */
+	int8_t range_sw_err;
 };
 
 /*
  * @brief BME68X sensor settings structure which comprises of ODR,
  * over-sampling and filter settings.
  */
-struct bme68x_conf
-{
-    /*! Humidity oversampling. Refer @ref osx*/
-    uint8_t os_hum;
+struct bme68x_conf {
+	/*! Humidity oversampling. Refer @ref osx*/
+	uint8_t os_hum;
 
-    /*! Temperature oversampling. Refer @ref osx */
-    uint8_t os_temp;
+	/*! Temperature oversampling. Refer @ref osx */
+	uint8_t os_temp;
 
-    /*! Pressure oversampling. Refer @ref osx */
-    uint8_t os_pres;
+	/*! Pressure oversampling. Refer @ref osx */
+	uint8_t os_pres;
 
-    /*! Filter coefficient. Refer @ref filter*/
-    uint8_t filter;
+	/*! Filter coefficient. Refer @ref filter*/
+	uint8_t filter;
 
-    /*!
-     * Standby time between sequential mode measurement profiles.
-     * Refer @ref odr
-     */
-    uint8_t odr;
+	/*!
+	 * Standby time between sequential mode measurement profiles.
+	 * Refer @ref odr
+	 */
+	uint8_t odr;
 };
 
 /*
  * @brief BME68X gas heater configuration
  */
-struct bme68x_heatr_conf
-{
-    /*! Enable gas measurement. Refer @ref en_dis */
-    uint8_t enable;
+struct bme68x_heatr_conf {
+	/*! Enable gas measurement. Refer @ref en_dis */
+	uint8_t enable;
 
-    /*! Store the heater temperature for forced mode degree Celsius */
-    uint16_t heatr_temp;
+	/*! Store the heater temperature for forced mode degree Celsius */
+	uint16_t heatr_temp;
 
-    /*! Store the heating duration for forced mode in milliseconds */
-    uint16_t heatr_dur;
+	/*! Store the heating duration for forced mode in milliseconds */
+	uint16_t heatr_dur;
 
-    /*! Store the heater temperature profile in degree Celsius */
-    uint16_t *heatr_temp_prof;
+	/*! Store the heater temperature profile in degree Celsius */
+	uint16_t *heatr_temp_prof;
 
-    /*! Store the heating duration profile in milliseconds */
-    uint16_t *heatr_dur_prof;
+	/*! Store the heating duration profile in milliseconds */
+	uint16_t *heatr_dur_prof;
 
-    /*! Variable to store the length of the heating profile */
-    uint8_t profile_len;
+	/*! Variable to store the length of the heating profile */
+	uint8_t profile_len;
 
-    /*!
-     * Variable to store heating duration for parallel mode
-     * in milliseconds
-     */
-    uint16_t shared_heatr_dur;
+	/*!
+	 * Variable to store heating duration for parallel mode
+	 * in milliseconds
+	 */
+	uint16_t shared_heatr_dur;
 };
 
 /*
  * @brief BME68X device structure
  */
-struct bme68x_dev
-{
-    /*! Chip Id */
-    uint8_t chip_id;
+struct bme68x_dev {
+	/*! Chip Id */
+	uint8_t chip_id;
 
-    /*!
-     * The interface pointer is used to enable the user
-     * to link their interface descriptors for reference during the
-     * implementation of the read and write interfaces to the
-     * hardware.
-     */
-    void *intf_ptr;
+	/*!
+	 * The interface pointer is used to enable the user
+	 * to link their interface descriptors for reference during the
+	 * implementation of the read and write interfaces to the
+	 * hardware.
+	 */
+	void *intf_ptr;
 
-    /*!
-     *             Variant id
-     * ----------------------------------------
-     *     Value   |           Variant
-     * ----------------------------------------
-     *      0      |   BME68X_VARIANT_GAS_LOW
-     *      1      |   BME68X_VARIANT_GAS_HIGH
-     * ----------------------------------------
-     */
-    uint32_t variant_id;
+	/*!
+	 *             Variant id
+	 * ----------------------------------------
+	 *     Value   |           Variant
+	 * ----------------------------------------
+	 *      0      |   BME68X_VARIANT_GAS_LOW
+	 *      1      |   BME68X_VARIANT_GAS_HIGH
+	 * ----------------------------------------
+	 */
+	uint32_t variant_id;
 
-    /*! SPI/I2C interface */
-    enum bme68x_intf intf;
+	/*! SPI/I2C interface */
+	enum bme68x_intf intf;
 
-    /*! Memory page used */
-    uint8_t mem_page;
+	/*! Memory page used */
+	uint8_t mem_page;
 
-    /*! Ambient temperature in Degree C*/
-    int8_t amb_temp;
+	/*! Ambient temperature in Degree C*/
+	int8_t amb_temp;
 
-    /*! Sensor calibration data */
-    struct bme68x_calib_data calib;
+	/*! Sensor calibration data */
+	struct bme68x_calib_data calib;
 
-    /*! Read function pointer */
-    bme68x_read_fptr_t read;
+	/*! Read function pointer */
+	bme68x_read_fptr_t read;
 
-    /*! Write function pointer */
-    bme68x_write_fptr_t write;
+	/*! Write function pointer */
+	bme68x_write_fptr_t write;
 
-    /*! Delay function pointer */
-    bme68x_delay_us_fptr_t delay_us;
+	/*! Delay function pointer */
+	bme68x_delay_us_fptr_t delay_us;
 
-    /*! To store interface pointer error */
-    BME68X_INTF_RET_TYPE intf_rslt;
+	/*! To store interface pointer error */
+	BME68X_INTF_RET_TYPE intf_rslt;
 
-    /*! Store the info messages */
-    uint8_t info_msg;
+	/*! Store the info messages */
+	uint8_t info_msg;
 };
 
 #endif /* BME68X_DEFS_H_ */

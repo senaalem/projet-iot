@@ -43,7 +43,7 @@ void debug_init()
 
 // configure USART1 (115200/8N1, tx-only)
 
-	// print banner
+// print banner
 	debug_str("\r\n============== DEBUG STARTED ==============\r\n");
 }
 

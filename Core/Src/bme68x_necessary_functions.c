@@ -11,18 +11,18 @@
  * Copyright (C) 2021 - Ahmet Batuhan Günaltay
  * (IAQ calculation substantial portion, the ideas and concepts is Copyright (c) David Bird 2018)
  *
-	This software library is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+ This software library is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
 
-    This software library is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This software library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *  */
 
@@ -34,11 +34,11 @@
 I2C_HandleTypeDef BME68x_I2C_Handler; // I2C peripheral for the device.
 
 // BME68x device address:
-uint8_t dev_addr = BME68X_I2C_ADDR_HIGH; // High is 0x77 and low is 0x76
+uint8_t dev_addr = BME68X_I2C_ADDR_LOW; // High is 0x77 and low is 0x76
 
 // BME68x Variables
 struct bme68x_dev bme;
-struct bme68x_data * BME68x_DATA;
+struct bme68x_data *BME68x_DATA;
 int8_t rslt;
 struct bme68x_conf conf;
 struct bme68x_heatr_conf heatr_conf;
@@ -54,7 +54,8 @@ float gas_lower_limit = 5000;   // Bad air quality limit
 float gas_upper_limit = 50000;  // Good air quality limit
 
 /* Complete init. function. */
-int8_t bme68x_start(struct bme68x_data *dataPtr, I2C_HandleTypeDef *handler) {
+int8_t bme68x_start(struct bme68x_data *dataPtr, I2C_HandleTypeDef *handler)
+{
 
 	// I2C handler copy
 	memcpy(&BME68x_I2C_Handler, handler, sizeof(*handler));
@@ -89,7 +90,8 @@ int8_t bme68x_start(struct bme68x_data *dataPtr, I2C_HandleTypeDef *handler) {
 }
 
 /* Force mode measurement. */
-int8_t bme68x_single_measure(struct bme68x_data *dataPtr) {
+int8_t bme68x_single_measure(struct bme68x_data *dataPtr)
+{
 
 	bme68x_set_op_mode(BME68X_FORCED_MODE, &bme);
 
@@ -107,11 +109,12 @@ int8_t bme68x_single_measure(struct bme68x_data *dataPtr) {
 /* Necessary functions. */
 // I2C write function.
 BME68X_INTF_RET_TYPE bme68x_i2c_write(uint8_t reg_addr, const uint8_t *reg_data,
-		uint32_t len, void *intf_ptr) {
+		uint32_t len, void *intf_ptr)
+{
 	uint8_t dev_addr = *(uint8_t*) intf_ptr;
 
-	if (HAL_I2C_Mem_Write(&BME68x_I2C_Handler, (uint16_t) (dev_addr << 1), reg_addr, 1,
-			(uint8_t*) reg_data, len, 15) == HAL_OK)
+	if (HAL_I2C_Mem_Write(&BME68x_I2C_Handler, (uint16_t) (dev_addr << 1),
+			reg_addr, 1, (uint8_t*) reg_data, len, 15) == HAL_OK)
 		return 0;
 
 	return 1;
@@ -119,30 +122,34 @@ BME68X_INTF_RET_TYPE bme68x_i2c_write(uint8_t reg_addr, const uint8_t *reg_data,
 
 // I2C read function.
 BME68X_INTF_RET_TYPE bme68x_i2c_read(uint8_t reg_addr, uint8_t *reg_data,
-		uint32_t len, void *intf_ptr) {
+		uint32_t len, void *intf_ptr)
+{
 	uint8_t dev_addr = *(uint8_t*) intf_ptr;
 
-	if (HAL_I2C_Mem_Read(&BME68x_I2C_Handler, (uint16_t) ((dev_addr << 1) | 0x1), reg_addr,
-			1, reg_data, len, 15) == HAL_OK)
+	if (HAL_I2C_Mem_Read(&BME68x_I2C_Handler,
+			(uint16_t) ((dev_addr << 1) | 0x1), reg_addr, 1, reg_data, len, 15)
+			== HAL_OK)
 		return 0;
 
 	return 1;
 }
 
 // BME68x delay function
-void bme68x_delay_us(uint32_t period, void *intf_ptr) {
+void bme68x_delay_us(uint32_t period, void *intf_ptr)
+{
 	HAL_Delay(period / 1000);
 }
 
 // BME68x interface function
-int8_t bme68x_interface_init(struct bme68x_dev *bme, uint8_t intf) {
+int8_t bme68x_interface_init(struct bme68x_dev *bme, uint8_t intf)
+{
 	int8_t rslt = BME68X_OK;
 
 	if (bme != NULL) {
 
 		// Check for the device on the I2C line
-		if (HAL_I2C_IsDeviceReady(&BME68x_I2C_Handler, (uint16_t) (dev_addr << 1), 5, 5)
-				== HAL_OK) {
+		if (HAL_I2C_IsDeviceReady(&BME68x_I2C_Handler,
+				(uint16_t) (dev_addr << 1), 5, 5) == HAL_OK) {
 			// Device found at the I2C line.
 			rslt = 0;
 		} else {
@@ -186,10 +193,11 @@ int8_t bme68x_interface_init(struct bme68x_dev *bme, uint8_t intf) {
  IN NO EVENT SHALL THE AUTHOR OR COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  See more at http://www.dsbird.org.uk
-*/
+ */
 
 /* IAQ functions */
-void bme68x_GetGasReference() {
+void bme68x_GetGasReference()
+{
 	// Now run the sensor for a burn-in period, then use combination of relative humidity and gas resistance to estimate indoor air quality as a percentage.
 
 	int readings = 10;
@@ -202,7 +210,8 @@ void bme68x_GetGasReference() {
 }
 
 //Calculate humidity contribution to IAQ index
-int8_t bme68x_GetHumidityScore() {
+int8_t bme68x_GetHumidityScore()
+{
 
 	if (BME68x_DATA->humidity >= 38 && BME68x_DATA->humidity <= 42) // Humidity +/-5% around optimum
 		humidity_score = 0.25 * 100;
@@ -219,7 +228,8 @@ int8_t bme68x_GetHumidityScore() {
 }
 
 //Calculate gas contribution to IAQ index
-int8_t bme68x_GetGasScore() {
+int8_t bme68x_GetGasScore()
+{
 
 	gas_score = (0.75 / (gas_upper_limit - gas_lower_limit) * gas_reference
 			- (gas_lower_limit * (0.75 / (gas_upper_limit - gas_lower_limit))))
@@ -232,7 +242,8 @@ int8_t bme68x_GetGasScore() {
 	return gas_score;
 }
 
-float bme68x_iaq() {
+float bme68x_iaq()
+{
 
 	float air_quality_score = (100
 			- (bme68x_GetHumidityScore(BME68x_DATA)
