@@ -7,23 +7,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
   1 .text         0000f924  08000190  08000190  00001190  2**4
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .rodata       000019d8  0800fab4  0800fab4  00010ab4  2**2
+  2 .rodata       000019e0  0800fab4  0800fab4  00010ab4  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  3 .ARM.extab    00000000  0801148c  0801148c  000130c4  2**0
+  3 .ARM.extab    00000000  08011494  08011494  000130c4  2**0
                   CONTENTS
-  4 .ARM          00000008  0801148c  0801148c  0001248c  2**2
+  4 .ARM          00000008  08011494  08011494  00012494  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  5 .preinit_array 00000000  08011494  08011494  000130c4  2**0
+  5 .preinit_array 00000000  0801149c  0801149c  000130c4  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  6 .init_array   00000004  08011494  08011494  00012494  2**2
+  6 .init_array   00000004  0801149c  0801149c  0001249c  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  7 .fini_array   00000004  08011498  08011498  00012498  2**2
+  7 .fini_array   00000004  080114a0  080114a0  000124a0  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
-  8 .data         000000c4  20000000  0801149c  00013000  2**2
+  8 .data         000000c4  20000000  080114a4  00013000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          00000780  200000c4  08011560  000130c4  2**2
+  9 .bss          00000780  200000c4  08011568  000130c4  2**2
                   ALLOC
- 10 ._user_heap_stack 00000604  20000844  08011560  00013844  2**0
+ 10 ._user_heap_stack 00000604  20000844  08011568  00013844  2**0
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  000130c4  2**0
                   CONTENTS, READONLY
@@ -1555,8 +1555,8 @@ static void aesroundkeys()
  80010c6:	f85d 7b04 	ldr.w	r7, [sp], #4
  80010ca:	4770      	bx	lr
  80010cc:	20000154 	.word	0x20000154
- 80010d0:	080101d4 	.word	0x080101d4
- 80010d4:	080101ac 	.word	0x080101ac
+ 80010d0:	080101dc 	.word	0x080101dc
+ 80010d4:	080101b4 	.word	0x080101b4
 
 080010d8 <os_aes>:
 
@@ -2133,10 +2133,10 @@ u4_t os_aes(u1_t mode, xref2u1_t buf, u2_t len)
  800151a:	e00b      	b.n	8001534 <os_aes+0x45c>
  800151c:	20000144 	.word	0x20000144
  8001520:	20000154 	.word	0x20000154
- 8001524:	08010ed4 	.word	0x08010ed4
- 8001528:	08010ad4 	.word	0x08010ad4
- 800152c:	080106d4 	.word	0x080106d4
- 8001530:	080102d4 	.word	0x080102d4
+ 8001524:	08010edc 	.word	0x08010edc
+ 8001528:	08010adc 	.word	0x08010adc
+ 800152c:	080106dc 	.word	0x080106dc
+ 8001530:	080102dc 	.word	0x080102dc
  8001534:	6aba      	ldr	r2, [r7, #40]	@ 0x28
  8001536:	4053      	eors	r3, r2
  8001538:	62bb      	str	r3, [r7, #40]	@ 0x28
@@ -2455,11 +2455,11 @@ u4_t os_aes(u1_t mode, xref2u1_t buf, u2_t len)
  80017be:	4053      	eors	r3, r2
  80017c0:	e00a      	b.n	80017d8 <os_aes+0x700>
  80017c2:	bf00      	nop
- 80017c4:	080102d4 	.word	0x080102d4
- 80017c8:	08010ed4 	.word	0x08010ed4
- 80017cc:	08010ad4 	.word	0x08010ad4
- 80017d0:	080106d4 	.word	0x080106d4
- 80017d4:	080101d4 	.word	0x080101d4
+ 80017c4:	080102dc 	.word	0x080102dc
+ 80017c8:	08010edc 	.word	0x08010edc
+ 80017cc:	08010adc 	.word	0x08010adc
+ 80017d0:	080106dc 	.word	0x080106dc
+ 80017d4:	080101dc 	.word	0x080101dc
  80017d8:	627b      	str	r3, [r7, #36]	@ 0x24
  80017da:	69bb      	ldr	r3, [r7, #24]
  80017dc:	b2db      	uxtb	r3, r3
@@ -2694,7 +2694,7 @@ u4_t os_aes(u1_t mode, xref2u1_t buf, u2_t len)
  800195a:	4a02      	ldr	r2, [pc, #8]	@ (8001964 <os_aes+0x88c>)
  800195c:	60d3      	str	r3, [r2, #12]
  800195e:	e05e      	b.n	8001a1e <os_aes+0x946>
- 8001960:	080101d4 	.word	0x080101d4
+ 8001960:	080101dc 	.word	0x080101dc
  8001964:	20000144 	.word	0x20000144
 			} else { // ECB
 				// store block
@@ -8168,11 +8168,11 @@ void cayenne_lpp_reset(cayenne_lpp_t *lpp)
  80041c0:	46bd      	mov	sp, r7
  80041c2:	bd80      	pop	{r7, pc}
 
-080041c4 <cayenne_lpp_add_analog_input>:
-	lpp->buffer[lpp->cursor++] = value;
+080041c4 <cayenne_lpp_add_analog_output>:
+	lpp->buffer[lpp->cursor++] = val;
 }
 
-void cayenne_lpp_add_analog_input(cayenne_lpp_t *lpp, uint8_t channel,
+void cayenne_lpp_add_analog_output(cayenne_lpp_t *lpp, uint8_t channel,
 		float value)
 {
  80041c4:	b580      	push	{r7, lr}
@@ -8187,17 +8187,17 @@ void cayenne_lpp_add_analog_input(cayenne_lpp_t *lpp, uint8_t channel,
  80041d6:	f893 302a 	ldrb.w	r3, [r3, #42]	@ 0x2a
  80041da:	3304      	adds	r3, #4
  80041dc:	2b29      	cmp	r3, #41	@ 0x29
- 80041de:	d905      	bls.n	80041ec <cayenne_lpp_add_analog_input+0x28>
- 80041e0:	4b24      	ldr	r3, [pc, #144]	@ (8004274 <cayenne_lpp_add_analog_input+0xb0>)
- 80041e2:	4a25      	ldr	r2, [pc, #148]	@ (8004278 <cayenne_lpp_add_analog_input+0xb4>)
- 80041e4:	2134      	movs	r1, #52	@ 0x34
- 80041e6:	4825      	ldr	r0, [pc, #148]	@ (800427c <cayenne_lpp_add_analog_input+0xb8>)
+ 80041de:	d905      	bls.n	80041ec <cayenne_lpp_add_analog_output+0x28>
+ 80041e0:	4b24      	ldr	r3, [pc, #144]	@ (8004274 <cayenne_lpp_add_analog_output+0xb0>)
+ 80041e2:	4a25      	ldr	r2, [pc, #148]	@ (8004278 <cayenne_lpp_add_analog_output+0xb4>)
+ 80041e4:	2141      	movs	r1, #65	@ 0x41
+ 80041e6:	4825      	ldr	r0, [pc, #148]	@ (800427c <cayenne_lpp_add_analog_output+0xb8>)
  80041e8:	f00a fcb2 	bl	800eb50 <__assert_func>
-			(lpp->cursor + CAYENNE_LPP_ANALOG_INPUT_SIZE) < CAYENNE_LPP_MAX_BUFFER_SIZE);
+			(lpp->cursor + CAYENNE_LPP_ANALOG_OUTPUT_SIZE) < CAYENNE_LPP_MAX_BUFFER_SIZE);
 
 	int16_t val = value * 100;
  80041ec:	edd7 7a01 	vldr	s15, [r7, #4]
- 80041f0:	ed9f 7a23 	vldr	s14, [pc, #140]	@ 8004280 <cayenne_lpp_add_analog_input+0xbc>
+ 80041f0:	ed9f 7a23 	vldr	s14, [pc, #140]	@ 8004280 <cayenne_lpp_add_analog_output+0xbc>
  80041f4:	ee67 7a87 	vmul.f32	s15, s15, s14
  80041f8:	eefd 7ae7 	vcvt.s32.f32	s15, s15
  80041fc:	ee17 3a90 	vmov	r3, s15
@@ -8213,7 +8213,7 @@ void cayenne_lpp_add_analog_input(cayenne_lpp_t *lpp, uint8_t channel,
  8004214:	68fb      	ldr	r3, [r7, #12]
  8004216:	7afa      	ldrb	r2, [r7, #11]
  8004218:	545a      	strb	r2, [r3, r1]
-	lpp->buffer[lpp->cursor++] = CAYENNE_LPP_ANALOG_INPUT;
+	lpp->buffer[lpp->cursor++] = CAYENNE_LPP_ANALOG_OUTPUT;
  800421a:	68fb      	ldr	r3, [r7, #12]
  800421c:	f893 302a 	ldrb.w	r3, [r3, #42]	@ 0x2a
  8004220:	1c5a      	adds	r2, r3, #1
@@ -8222,7 +8222,7 @@ void cayenne_lpp_add_analog_input(cayenne_lpp_t *lpp, uint8_t channel,
  8004226:	f882 102a 	strb.w	r1, [r2, #42]	@ 0x2a
  800422a:	461a      	mov	r2, r3
  800422c:	68fb      	ldr	r3, [r7, #12]
- 800422e:	2102      	movs	r1, #2
+ 800422e:	2103      	movs	r1, #3
  8004230:	5499      	strb	r1, [r3, r2]
 	lpp->buffer[lpp->cursor++] = val >> 8;
  8004232:	f9b7 3016 	ldrsh.w	r3, [r7, #22]
@@ -8255,8 +8255,8 @@ void cayenne_lpp_add_analog_input(cayenne_lpp_t *lpp, uint8_t channel,
  800426e:	3718      	adds	r7, #24
  8004270:	46bd      	mov	sp, r7
  8004272:	bd80      	pop	{r7, pc}
- 8004274:	0800fc0c 	.word	0x0800fc0c
- 8004278:	080112d4 	.word	0x080112d4
+ 8004274:	0800fc58 	.word	0x0800fc58
+ 8004278:	080112dc 	.word	0x080112dc
  800427c:	0800fba0 	.word	0x0800fba0
  8004280:	42c80000 	.word	0x42c80000
 
@@ -8348,7 +8348,7 @@ void cayenne_lpp_add_temperature(cayenne_lpp_t *lpp, uint8_t channel,
  8004330:	46bd      	mov	sp, r7
  8004332:	bd80      	pop	{r7, pc}
  8004334:	0800fd3c 	.word	0x0800fd3c
- 8004338:	080112f4 	.word	0x080112f4
+ 8004338:	080112fc 	.word	0x080112fc
  800433c:	0800fba0 	.word	0x0800fba0
 
 08004340 <debug_init>:
@@ -9965,7 +9965,7 @@ inline rps_t updr2rps(dr_t dr)
  8004c94:	f85d 7b04 	ldr.w	r7, [sp], #4
  8004c98:	4770      	bx	lr
  8004c9a:	bf00      	nop
- 8004c9c:	08011310 	.word	0x08011310
+ 8004c9c:	08011318 	.word	0x08011318
 
 08004ca0 <dndr2rps>:
 inline rps_t dndr2rps(dr_t dr)
@@ -10021,7 +10021,7 @@ inline dr_t decDR(dr_t dr)
  8004cec:	f85d 7b04 	ldr.w	r7, [sp], #4
  8004cf0:	4770      	bx	lr
  8004cf2:	bf00      	nop
- 8004cf4:	08011310 	.word	0x08011310
+ 8004cf4:	08011318 	.word	0x08011318
 
 08004cf8 <validDR>:
 inline dr_t assertDR(dr_t dr)
@@ -10051,7 +10051,7 @@ inline bit_t validDR(dr_t dr)
  8004d18:	46bd      	mov	sp, r7
  8004d1a:	f85d 7b04 	ldr.w	r7, [sp], #4
  8004d1e:	4770      	bx	lr
- 8004d20:	08011310 	.word	0x08011310
+ 8004d20:	08011318 	.word	0x08011318
 
 08004d24 <lowerDR>:
 inline dr_t lowerDR(dr_t dr, u1_t n)
@@ -10845,7 +10845,7 @@ int getSensitivity(rps_t rps)
  8005226:	46bd      	mov	sp, r7
  8005228:	bd90      	pop	{r4, r7, pc}
  800522a:	bf00      	nop
- 800522c:	0801132c 	.word	0x0801132c
+ 800522c:	08011334 	.word	0x08011334
 
 08005230 <calcAirTime>:
 
@@ -11110,7 +11110,7 @@ static ostime_t calcRxWindow(u1_t secs, dr_t dr)
  80053fa:	f85d 7b04 	ldr.w	r7, [sp], #4
  80053fe:	4770      	bx	lr
  8005400:	2000033c 	.word	0x2000033c
- 8005404:	08011350 	.word	0x08011350
+ 8005404:	08011358 	.word	0x08011358
 
 08005408 <calcBcnRxWindowFromMillis>:
 
@@ -11771,7 +11771,7 @@ static void initDefaultChannels(bit_t join)
  80058e4:	200003bc 	.word	0x200003bc
  80058e8:	2000035c 	.word	0x2000035c
  80058ec:	2000033c 	.word	0x2000033c
- 80058f0:	08011370 	.word	0x08011370
+ 80058f0:	08011378 	.word	0x08011378
 
 080058f4 <LMIC_setupChannel>:
 	b->lastchnl = os_getRndU1() % MAX_CHANNELS;
@@ -13592,7 +13592,7 @@ static bit_t decodeFrame(void)
  80065ce:	f6ff ae45 	blt.w	800625c <decodeFrame+0x204>
  80065d2:	e006      	b.n	80065e2 <decodeFrame+0x58a>
  80065d4:	2000033c 	.word	0x2000033c
- 80065d8:	0801131c 	.word	0x0801131c
+ 80065d8:	08011324 	.word	0x08011324
  80065dc:	ffc181e0 	.word	0xffc181e0
 		}
 		}EV(specCond, ERR, (e_.reason = EV::specCond_t::BAD_MAC_CMD,
@@ -13812,7 +13812,7 @@ static void schedRx2(ostime_t delay, osjobcb_t func)
  8006744:	46bd      	mov	sp, r7
  8006746:	bd80      	pop	{r7, pc}
  8006748:	2000033c 	.word	0x2000033c
- 800674c:	08011350 	.word	0x08011350
+ 800674c:	08011358 	.word	0x08011358
  8006750:	20000350 	.word	0x20000350
 
 08006754 <setupRx1>:
@@ -13950,7 +13950,7 @@ static void txDone(ostime_t delay, osjobcb_t func)
  800682a:	bd80      	pop	{r7, pc}
  800682c:	2000033c 	.word	0x2000033c
  8006830:	20000470 	.word	0x20000470
- 8006834:	08011350 	.word	0x08011350
+ 8006834:	08011358 	.word	0x08011358
  8006838:	20000350 	.word	0x20000350
 
 0800683c <onJoinFailed>:
@@ -15728,7 +15728,7 @@ static bit_t processDnData(void)
  8007520:	bd80      	pop	{r7, pc}
  8007522:	bf00      	nop
  8007524:	2000033c 	.word	0x2000033c
- 8007528:	08011344 	.word	0x08011344
+ 8007528:	0801134c 	.word	0x0801134c
 
 0800752c <processBeacon>:
 
@@ -16784,7 +16784,7 @@ void os_getArtEui(u1_t *buf)
  8007c90:	f85d 7b04 	ldr.w	r7, [sp], #4
  8007c94:	4770      	bx	lr
  8007c96:	bf00      	nop
- 8007c98:	080113a0 	.word	0x080113a0
+ 8007c98:	080113a8 	.word	0x080113a8
 
 08007c9c <os_getDevEui>:
 
@@ -16810,7 +16810,7 @@ void os_getDevEui(u1_t *buf)
  8007cb8:	f85d 7b04 	ldr.w	r7, [sp], #4
  8007cbc:	4770      	bx	lr
  8007cbe:	bf00      	nop
- 8007cc0:	080113a8 	.word	0x080113a8
+ 8007cc0:	080113b0 	.word	0x080113b0
 
 08007cc4 <os_getDevKey>:
 
@@ -16837,7 +16837,7 @@ void os_getDevKey(u1_t *buf)
  8007ce2:	46bd      	mov	sp, r7
  8007ce4:	bcb0      	pop	{r4, r5, r7}
  8007ce6:	4770      	bx	lr
- 8007ce8:	080113b0 	.word	0x080113b0
+ 8007ce8:	080113b8 	.word	0x080113b8
 
 08007cec <initsensor>:
 
@@ -16941,7 +16941,7 @@ static void reportfunc_bme(osjob_t *j)
 	readsensor_bme();
  8007d68:	f7ff ffe6 	bl	8007d38 <readsensor_bme>
 
-	debug_valdec("val = ", data.temperature);
+	debug_valdec("T = ", data.temperature);
  8007d6c:	4b1a      	ldr	r3, [pc, #104]	@ (8007dd8 <reportfunc_bme+0x78>)
  8007d6e:	edd3 7a03 	vldr	s15, [r3, #12]
  8007d72:	eefd 7ae7 	vcvt.s32.f32	s15, s15
@@ -16959,13 +16959,13 @@ static void reportfunc_bme(osjob_t *j)
  8007d90:	2100      	movs	r1, #0
  8007d92:	4813      	ldr	r0, [pc, #76]	@ (8007de0 <reportfunc_bme+0x80>)
  8007d94:	f7fc fa76 	bl	8004284 <cayenne_lpp_add_temperature>
-	cayenne_lpp_add_analog_input(&lpp_desc, 0, data.iaq_score);
+	cayenne_lpp_add_analog_output(&lpp_desc, 0, data.iaq_score);
  8007d98:	4b0f      	ldr	r3, [pc, #60]	@ (8007dd8 <reportfunc_bme+0x78>)
  8007d9a:	edd3 7a02 	vldr	s15, [r3, #8]
  8007d9e:	eeb0 0a67 	vmov.f32	s0, s15
  8007da2:	2100      	movs	r1, #0
  8007da4:	480e      	ldr	r0, [pc, #56]	@ (8007de0 <reportfunc_bme+0x80>)
- 8007da6:	f7fc fa0d 	bl	80041c4 <cayenne_lpp_add_analog_input>
+ 8007da6:	f7fc fa0d 	bl	80041c4 <cayenne_lpp_add_analog_output>
 	// La fonction LMIC_setTxData2 envoie
 	LMIC_setTxData2(1, &lpp_desc, 4 * 2, 0);
  8007daa:	2300      	movs	r3, #0
@@ -16992,7 +16992,7 @@ static void reportfunc_bme(osjob_t *j)
  8007dd4:	bd80      	pop	{r7, pc}
  8007dd6:	bf00      	nop
  8007dd8:	200004f0 	.word	0x200004f0
- 8007ddc:	08010030 	.word	0x08010030
+ 8007ddc:	08010038 	.word	0x08010038
  8007de0:	2000050c 	.word	0x2000050c
  8007de4:	08007d61 	.word	0x08007d61
 
@@ -17238,27 +17238,27 @@ void onEvent(ev_t ev)
  8007f82:	3708      	adds	r7, #8
  8007f84:	46bd      	mov	sp, r7
  8007f86:	bd80      	pop	{r7, pc}
- 8007f88:	08010050 	.word	0x08010050
+ 8007f88:	08010058 	.word	0x08010058
  8007f8c:	20000544 	.word	0x20000544
  8007f90:	20000538 	.word	0x20000538
- 8007f94:	08010060 	.word	0x08010060
- 8007f98:	08010070 	.word	0x08010070
- 8007f9c:	08010084 	.word	0x08010084
- 8007fa0:	08010098 	.word	0x08010098
- 8007fa4:	080100ac 	.word	0x080100ac
- 8007fa8:	080100c0 	.word	0x080100c0
- 8007fac:	080100cc 	.word	0x080100cc
- 8007fb0:	080100e0 	.word	0x080100e0
+ 8007f94:	08010068 	.word	0x08010068
+ 8007f98:	08010078 	.word	0x08010078
+ 8007f9c:	0801008c 	.word	0x0801008c
+ 8007fa0:	080100a0 	.word	0x080100a0
+ 8007fa4:	080100b4 	.word	0x080100b4
+ 8007fa8:	080100c8 	.word	0x080100c8
+ 8007fac:	080100d4 	.word	0x080100d4
+ 8007fb0:	080100e8 	.word	0x080100e8
  8007fb4:	2000033c 	.word	0x2000033c
- 8007fb8:	08010114 	.word	0x08010114
- 8007fbc:	08010124 	.word	0x08010124
- 8007fc0:	08010144 	.word	0x08010144
- 8007fc4:	08010150 	.word	0x08010150
- 8007fc8:	08010160 	.word	0x08010160
- 8007fcc:	0801016c 	.word	0x0801016c
- 8007fd0:	0801017c 	.word	0x0801017c
- 8007fd4:	0801018c 	.word	0x0801018c
- 8007fd8:	0801019c 	.word	0x0801019c
+ 8007fb8:	0801011c 	.word	0x0801011c
+ 8007fbc:	0801012c 	.word	0x0801012c
+ 8007fc0:	0801014c 	.word	0x0801014c
+ 8007fc4:	08010158 	.word	0x08010158
+ 8007fc8:	08010168 	.word	0x08010168
+ 8007fcc:	08010174 	.word	0x08010174
+ 8007fd0:	08010184 	.word	0x08010184
+ 8007fd4:	08010194 	.word	0x08010194
+ 8007fd8:	080101a4 	.word	0x080101a4
 
 08007fdc <main>:
 /**
@@ -18910,7 +18910,7 @@ static void rxlora(u1_t rxmode)
  80089ec:	46bd      	mov	sp, r7
  80089ee:	bd80      	pop	{r7, pc}
  80089f0:	2000033c 	.word	0x2000033c
- 80089f4:	080113c0 	.word	0x080113c0
+ 80089f4:	080113c8 	.word	0x080113c8
 
 080089f8 <rxfsk>:
 
@@ -19548,7 +19548,7 @@ void radio_irq_handler(u1_t dio)
  8008df0:	46bd      	mov	sp, r7
  8008df2:	bd80      	pop	{r7, pc}
  8008df4:	2000033c 	.word	0x2000033c
- 8008df8:	080113c4 	.word	0x080113c4
+ 8008df8:	080113cc 	.word	0x080113cc
  8008dfc:	20000484 	.word	0x20000484
  8008e00:	20000350 	.word	0x20000350
 
@@ -20972,7 +20972,7 @@ LoopForever:
   ldr r1, =_edata
  80094bc:	200000c4 	.word	0x200000c4
   ldr r2, =_sidata
- 80094c0:	0801149c 	.word	0x0801149c
+ 80094c0:	080114a4 	.word	0x080114a4
   ldr r2, =_sbss
  80094c4:	200000c4 	.word	0x200000c4
   ldr r4, =_ebss
@@ -29192,7 +29192,7 @@ HAL_StatusTypeDef HAL_RCC_OscConfig(RCC_OscInitTypeDef  *RCC_OscInitStruct)
  800c350:	6013      	str	r3, [r2, #0]
  800c352:	e013      	b.n	800c37c <HAL_RCC_OscConfig+0x298>
  800c354:	40021000 	.word	0x40021000
- 800c358:	080113d4 	.word	0x080113d4
+ 800c358:	080113dc 	.word	0x080113dc
  800c35c:	2000005c 	.word	0x2000005c
  800c360:	20000060 	.word	0x20000060
  800c364:	4ba0      	ldr	r3, [pc, #640]	@ (800c5e8 <HAL_RCC_OscConfig+0x504>)
@@ -30582,7 +30582,7 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, ui
  800caf6:	bd80      	pop	{r7, pc}
  800caf8:	40022000 	.word	0x40022000
  800cafc:	40021000 	.word	0x40021000
- 800cb00:	080113d4 	.word	0x080113d4
+ 800cb00:	080113dc 	.word	0x080113dc
  800cb04:	2000005c 	.word	0x2000005c
  800cb08:	20000060 	.word	0x20000060
 
@@ -30787,7 +30787,7 @@ uint32_t HAL_RCC_GetSysClockFreq(void)
  800cc10:	4770      	bx	lr
  800cc12:	bf00      	nop
  800cc14:	40021000 	.word	0x40021000
- 800cc18:	080113ec 	.word	0x080113ec
+ 800cc18:	080113f4 	.word	0x080113f4
  800cc1c:	00f42400 	.word	0x00f42400
  800cc20:	007a1200 	.word	0x007a1200
 
@@ -30836,7 +30836,7 @@ uint32_t HAL_RCC_GetPCLK1Freq(void)
  800cc5c:	4618      	mov	r0, r3
  800cc5e:	bd80      	pop	{r7, pc}
  800cc60:	40021000 	.word	0x40021000
- 800cc64:	080113e4 	.word	0x080113e4
+ 800cc64:	080113ec 	.word	0x080113ec
 
 0800cc68 <HAL_RCC_GetPCLK2Freq>:
   * @note   Each time PCLK2 changes, this function must be called to update the
@@ -30863,7 +30863,7 @@ uint32_t HAL_RCC_GetPCLK2Freq(void)
  800cc88:	4618      	mov	r0, r3
  800cc8a:	bd80      	pop	{r7, pc}
  800cc8c:	40021000 	.word	0x40021000
- 800cc90:	080113e4 	.word	0x080113e4
+ 800cc90:	080113ec 	.word	0x080113ec
 
 0800cc94 <RCC_SetFlashLatencyFromMSIRange>:
             voltage range.
@@ -36382,9 +36382,9 @@ static void UART_EndRxTransfer(UART_HandleTypeDef *huart)
  800eb78:	e7f4      	b.n	800eb64 <__assert_func+0x14>
  800eb7a:	bf00      	nop
  800eb7c:	20000074 	.word	0x20000074
- 800eb80:	08011457 	.word	0x08011457
- 800eb84:	08011429 	.word	0x08011429
- 800eb88:	0801141c 	.word	0x0801141c
+ 800eb80:	0801145f 	.word	0x0801145f
+ 800eb84:	08011431 	.word	0x08011431
+ 800eb88:	08011424 	.word	0x08011424
 
 0800eb8c <std>:
  800eb8c:	2300      	movs	r3, #0
@@ -36607,10 +36607,10 @@ static void UART_EndRxTransfer(UART_HandleTypeDef *huart)
  800ed82:	4798      	blx	r3
  800ed84:	3601      	adds	r6, #1
  800ed86:	e7f2      	b.n	800ed6e <__libc_init_array+0x1e>
- 800ed88:	08011494 	.word	0x08011494
- 800ed8c:	08011494 	.word	0x08011494
- 800ed90:	08011494 	.word	0x08011494
- 800ed94:	08011498 	.word	0x08011498
+ 800ed88:	0801149c 	.word	0x0801149c
+ 800ed8c:	0801149c 	.word	0x0801149c
+ 800ed90:	0801149c 	.word	0x0801149c
+ 800ed94:	080114a0 	.word	0x080114a0
 
 0800ed98 <__retarget_lock_init_recursive>:
  800ed98:	4770      	bx	lr
@@ -36905,11 +36905,11 @@ static void UART_EndRxTransfer(UART_HandleTypeDef *huart)
  800f030:	4630      	mov	r0, r6
  800f032:	f000 f91b 	bl	800f26c <_printf_i>
  800f036:	e7e4      	b.n	800f002 <_vfiprintf_r+0x1e6>
- 800f038:	08011458 	.word	0x08011458
- 800f03c:	08011462 	.word	0x08011462
+ 800f038:	08011460 	.word	0x08011460
+ 800f03c:	0801146a 	.word	0x0801146a
  800f040:	00000000 	.word	0x00000000
  800f044:	0800edf7 	.word	0x0800edf7
- 800f048:	0801145e 	.word	0x0801145e
+ 800f048:	08011466 	.word	0x08011466
 
 0800f04c <sbrk_aligned>:
  800f04c:	b570      	push	{r4, r5, r6, lr}
@@ -37380,8 +37380,8 @@ static void UART_EndRxTransfer(UART_HandleTypeDef *huart)
  800f49c:	f104 0619 	add.w	r6, r4, #25
  800f4a0:	e7f5      	b.n	800f48e <_printf_i+0x222>
  800f4a2:	bf00      	nop
- 800f4a4:	08011469 	.word	0x08011469
- 800f4a8:	0801147a 	.word	0x0801147a
+ 800f4a4:	08011471 	.word	0x08011471
+ 800f4a8:	08011482 	.word	0x08011482
 
 0800f4ac <__sflush_r>:
  800f4ac:	f9b1 200c 	ldrsh.w	r2, [r1, #12]
