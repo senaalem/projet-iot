@@ -728,7 +728,7 @@ static ostime_t nextJoinState(void)
 		LMIC.txChnl = 0;
 	if ((++LMIC.txCnt & 1) == 0) {
 		// Lower DR every 2nd try (having tried 868.x and 864.x with the same DR)
-		if (LMIC.datarate == DR_SF12)
+		if (LMIC.datarate == DR_SF9)
 			failed = 1; // we have tried all DR - signal EV_JOIN_FAILED
 		else
 			setDrJoin(DRCHG_NOJACC, decDR((dr_t) LMIC.datarate));

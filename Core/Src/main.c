@@ -71,6 +71,7 @@ uint32_t temp = 0;
 
 struct bme68x_data data;
 
+cayenne_lpp_t lpp_desc;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -103,6 +104,11 @@ void initsensor()
 {
 	// Here you init your sensors
 	HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
+}
+
+void initsensor_bme()
+{
+	// Here you init your sensors
 	bme68x_start(&data, &hi2c1);
 }
 
@@ -110,6 +116,7 @@ void initfunc(osjob_t *j)
 {
 	// initialize sensor hardware
 	initsensor();
+	initsensor_bme();
 	// reset MAC state
 	LMIC_reset();
 	// start joining
@@ -119,12 +126,16 @@ void initfunc(osjob_t *j)
 
 u2_t readsensor()
 {
+	u2_t value = temp; /// read from everything ...make your own sensor
+	return value;
+}
+
+void readsensor_bme()
+{
 	if (bme68x_single_measure(&data) == 0) {
 		// Measurement is successful, so continue with IAQ
 		data.iaq_score = bme68x_iaq(); // Calculate IAQ
-	}
-	u2_t value = (u2_t) data.temperature;
-	return value; /// read from everything ...make your own sensor
+	} /// read from everything ...make your own sensor
 }
 
 static osjob_t reportjob;
@@ -137,7 +148,7 @@ static void reportfunc(osjob_t *j)
 	// prepare and schedule data for transmission
 	LMIC.frame[0] = 0;
 	LMIC.frame[1] = 0x67;
-	val *= 10;
+	val /= 100;
 	// val /= 100;
 	LMIC.frame[2] = val >> 8;
 	LMIC.frame[3] = val;
@@ -147,6 +158,25 @@ static void reportfunc(osjob_t *j)
 	// (port 1, 2 bytes, unconfirmed)
 	// reschedule job in 15 seconds
 	os_setTimedCallback(j, os_getTime() + sec2osticks(15), reportfunc);
+}
+
+static osjob_t reportjob_bme;
+// report bme sensor value every minute
+static void reportfunc_bme(osjob_t *j)
+{
+	// read sensor
+	readsensor_bme();
+
+	debug_valdec("val = ", data.temperature);
+	// prepare and schedule data for transmission
+	cayenne_lpp_reset(&lpp_desc);
+	cayenne_lpp_add_temperature(&lpp_desc, 0, data.temperature);
+	// La fonction LMIC_setTxData2 envoie
+	LMIC_setTxData2(1, &lpp_desc, 4, 0);
+	// la trame Lora : lpp_desc
+	// (port 1, 2 bytes, unconfirmed)
+	// reschedule job in 15 seconds
+	os_setTimedCallback(j, os_getTime() + sec2osticks(15), reportfunc_bme);
 }
 
 // counter
@@ -191,7 +221,8 @@ void onEvent(ev_t ev)
 		// kick-off periodic sensor job
 		os_clearCallback(&blinkjob);
 		debug_led(1);
-		reportfunc(&reportjob);
+		// reportfunc(&reportjob);
+		reportfunc_bme(&reportjob_bme);
 		break;
 	case EV_JOIN_FAILED:
 		debug_str("join failed\r\n");
