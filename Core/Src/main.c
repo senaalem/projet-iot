@@ -171,8 +171,9 @@ static void reportfunc_bme(osjob_t *j)
 	// prepare and schedule data for transmission
 	cayenne_lpp_reset(&lpp_desc);
 	cayenne_lpp_add_temperature(&lpp_desc, 0, data.temperature);
+	cayenne_lpp_add_analog_input(&lpp_desc, 0, data.iaq_score);
 	// La fonction LMIC_setTxData2 envoie
-	LMIC_setTxData2(1, &lpp_desc, 4, 0);
+	LMIC_setTxData2(1, &lpp_desc, 4 * 2, 0);
 	// la trame Lora : lpp_desc
 	// (port 1, 2 bytes, unconfirmed)
 	// reschedule job in 15 seconds
