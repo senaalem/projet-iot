@@ -167,13 +167,16 @@ static void reportfunc_bme(osjob_t *j)
 	// read sensor
 	readsensor_bme();
 
-	debug_valdec("T = ", data.temperature);
+	debug_valfloat("T = ", data.temperature, 7);
+	debug_valdec("IAQ = ", data.iaq_score);
+	debug_valfloat("h = ", data.humidity, 7);
 	// prepare and schedule data for transmission
 	cayenne_lpp_reset(&lpp_desc);
 	cayenne_lpp_add_temperature(&lpp_desc, 0, data.temperature);
 	cayenne_lpp_add_analog_output(&lpp_desc, 0, data.iaq_score);
+	cayenne_lpp_add_relative_humidity(&lpp_desc, 0, data.humidity);
 	// La fonction LMIC_setTxData2 envoie
-	LMIC_setTxData2(1, &lpp_desc, 4 * 2, 0);
+	LMIC_setTxData2(1, &lpp_desc, 4 * 3, 0);
 	// la trame Lora : lpp_desc
 	// (port 1, 2 bytes, unconfirmed)
 	// reschedule job in 15 seconds
