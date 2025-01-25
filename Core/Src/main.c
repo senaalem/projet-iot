@@ -173,8 +173,8 @@ static void reportfunc_bme(osjob_t *j)
 	// prepare and schedule data for transmission
 	cayenne_lpp_reset(&lpp_desc);
 	cayenne_lpp_add_temperature(&lpp_desc, 0, data.temperature);
-	cayenne_lpp_add_analog_output(&lpp_desc, 0, data.iaq_score);
-	cayenne_lpp_add_relative_humidity(&lpp_desc, 0, data.humidity);
+	cayenne_lpp_add_analog_output(&lpp_desc, 1, data.iaq_score);
+	cayenne_lpp_add_analog_output(&lpp_desc, 2, data.humidity);
 	// La fonction LMIC_setTxData2 envoie
 	LMIC_setTxData2(1, &lpp_desc, 4 * 3, 0);
 	// la trame Lora : lpp_desc
