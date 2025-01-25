@@ -33,22 +33,20 @@
 // These settings can be adapted to the underlying system.
 // You should not, however, change the lmic.[hc]
 
-
-
 //================================================================================
 //================================================================================
 // Target platform as C library
-typedef unsigned char      bit_t;
-typedef unsigned char      u1_t;
-typedef   signed char      s1_t;
-typedef unsigned short     u2_t;
-typedef          short     s2_t;
-typedef unsigned int       u4_t;
-typedef          int       s4_t;
+typedef unsigned char bit_t;
+typedef unsigned char u1_t;
+typedef signed char s1_t;
+typedef unsigned short u2_t;
+typedef short s2_t;
+typedef unsigned int u4_t;
+typedef int s4_t;
 typedef unsigned long long u8_t;
-typedef          long long s8_t;
-typedef unsigned int       uint;
-typedef const char* str_t;
+typedef long long s8_t;
+typedef unsigned int uint;
+typedef const char *str_t;
 
 #include <string.h>
 #include "hal.h"
@@ -63,13 +61,13 @@ typedef const char* str_t;
 #define os_clearMem(a,b)   memset(a,0,b)
 #define os_copyMem(a,b,c)  memcpy(a,b,c)
 
-typedef     struct osjob_t osjob_t;
-typedef      struct band_t band_t;
-typedef   struct chnldef_t chnldef_t;
-typedef   struct rxsched_t rxsched_t;
-typedef   struct bcninfo_t bcninfo_t;
-typedef        const u1_t* xref2cu1_t;
-typedef              u1_t* xref2u1_t;
+typedef struct osjob_t osjob_t;
+typedef struct band_t band_t;
+typedef struct chnldef_t chnldef_t;
+typedef struct rxsched_t rxsched_t;
+typedef struct bcninfo_t bcninfo_t;
+typedef const u1_t *xref2cu1_t;
+typedef u1_t *xref2u1_t;
 #define TYPEDEF_xref2rps_t     typedef         rps_t* xref2rps_t
 #define TYPEDEF_xref2rxsched_t typedef     rxsched_t* xref2rxsched_t
 #define TYPEDEF_xref2chnldef_t typedef     chnldef_t* xref2chnldef_t
@@ -87,19 +85,18 @@ extern u4_t AESKEY[];
 #define AESaux ((u1_t*)AESAUX)
 #define FUNC_ADDR(func) (&(func))
 
-u1_t radio_rand1 (void);
+u1_t radio_rand1(void);
 #define os_getRndU1() radio_rand1()
 
 #define DEFINE_LMIC  struct lmic_t LMIC
 #define DECLARE_LMIC extern struct lmic_t LMIC
 
-void radio_init (void);
-void radio_irq_handler (u1_t dio);
-void os_init (void);
-void os_runloop (void);
+void radio_init(void);
+void radio_irq_handler(u1_t dio);
+void os_init(void);
+void os_runloop(void);
 
 //================================================================================
-
 
 #ifndef RX_RAMPUP
 #define RX_RAMPUP  (us2osticks(2000))
@@ -114,7 +111,7 @@ void os_runloop (void);
 #error Illegal OSTICKS_PER_SEC - must be in range [10000:64516]. One tick must be 15.5us .. 100us long.
 #endif
 
-typedef s4_t  ostime_t;
+typedef s4_t ostime_t;
 
 #if !HAS_ostick_conv
 #define us2osticks(us)   ((ostime_t)( ((s8_t)(us) * OSTICKS_PER_SEC) / 1000000))
@@ -129,73 +126,72 @@ typedef s4_t  ostime_t;
 #define ms2osticksRound(ms) ((ostime_t)( ((s8_t)(ms) * OSTICKS_PER_SEC + 500) / 1000))
 #endif
 
-
-struct osjob_t;  // fwd decl.
-typedef void (*osjobcb_t) (struct osjob_t*);
+struct osjob_t;
+// fwd decl.
+typedef void (*osjobcb_t)(struct osjob_t*);
 struct osjob_t {
-    struct osjob_t* next;
-    ostime_t deadline;
-    osjobcb_t  func;
+	struct osjob_t *next;
+	ostime_t deadline;
+	osjobcb_t func;
 };
 TYPEDEF_xref2osjob_t;
-
 
 #ifndef HAS_os_calls
 
 #ifndef os_getDevKey
-void os_getDevKey (xref2u1_t buf);
+void os_getDevKey(xref2u1_t buf);
 #endif
 #ifndef os_getArtEui
-void os_getArtEui (xref2u1_t buf);
+void os_getArtEui(xref2u1_t buf);
 #endif
 #ifndef os_getDevEui
-void os_getDevEui (xref2u1_t buf);
+void os_getDevEui(xref2u1_t buf);
 #endif
 #ifndef os_setCallback
-void os_setCallback (xref2osjob_t job, osjobcb_t cb);
+void os_setCallback(xref2osjob_t job, osjobcb_t cb);
 #endif
 #ifndef os_setTimedCallback
-void os_setTimedCallback (xref2osjob_t job, ostime_t time, osjobcb_t cb);
+void os_setTimedCallback(xref2osjob_t job, ostime_t time, osjobcb_t cb);
 #endif
 #ifndef os_clearCallback
-void os_clearCallback (xref2osjob_t job);
+void os_clearCallback(xref2osjob_t job);
 #endif
 #ifndef os_getTime
-ostime_t os_getTime (void);
+ostime_t os_getTime(void);
 #endif
 #ifndef os_getTimeSecs
-uint os_getTimeSecs (void);
+uint os_getTimeSecs(void);
 #endif
 #ifndef os_radio
-void os_radio (u1_t mode);
+void os_radio(u1_t mode);
 #endif
 #ifndef os_getBattLevel
-u1_t os_getBattLevel (void);
+u1_t os_getBattLevel(void);
 #endif
 
 #ifndef os_rlsbf4
 //! Read 32-bit quantity from given pointer in little endian byte order.
-u4_t os_rlsbf4 (xref2cu1_t buf);
+u4_t os_rlsbf4(xref2cu1_t buf);
 #endif
 #ifndef os_wlsbf4
 //! Write 32-bit quntity into buffer in little endian byte order.
-void os_wlsbf4 (xref2u1_t buf, u4_t value);
+void os_wlsbf4(xref2u1_t buf, u4_t value);
 #endif
 #ifndef os_rmsbf4
 //! Read 32-bit quantity from given pointer in big endian byte order.
-u4_t os_rmsbf4 (xref2cu1_t buf);
+u4_t os_rmsbf4(xref2cu1_t buf);
 #endif
 #ifndef os_wmsbf4
 //! Write 32-bit quntity into buffer in big endian byte order.
-void os_wmsbf4 (xref2u1_t buf, u4_t value);
+void os_wmsbf4(xref2u1_t buf, u4_t value);
 #endif
 #ifndef os_rlsbf2
 //! Read 16-bit quantity from given pointer in little endian byte order.
-u2_t os_rlsbf2 (xref2cu1_t buf);
+u2_t os_rlsbf2(xref2cu1_t buf);
 #endif
 #ifndef os_wlsbf2
 //! Write 16-bit quntity into buffer in little endian byte order.
-void os_wlsbf2 (xref2u1_t buf, u2_t value);
+void os_wlsbf2(xref2u1_t buf, u2_t value);
 #endif
 
 //! Get random number (default impl for u2_t).
@@ -203,7 +199,7 @@ void os_wlsbf2 (xref2u1_t buf, u2_t value);
 #define os_getRndU2() ((u2_t)((os_getRndU1()<<8)|os_getRndU1()))
 #endif
 #ifndef os_crc16
-u2_t os_crc16 (xref2u1_t d, uint len);
+u2_t os_crc16(xref2u1_t d, uint len);
 #endif
 
 #endif // !HAS_os_calls
@@ -224,9 +220,7 @@ extern xref2u1_t AESkey;
 extern xref2u1_t AESaux;
 #endif
 #ifndef os_aes
-u4_t os_aes (u1_t mode, xref2u1_t buf, u2_t len);
+u4_t os_aes(u1_t mode, xref2u1_t buf, u2_t len);
 #endif
-
-
 
 #endif // _oslmic_h_

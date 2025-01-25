@@ -132,7 +132,7 @@ u1_t hal_spi(u1_t out)
 	char inbuffer[] = "";
 	outbuffer[0] = out;
 	HAL_SPI_TransmitReceive(&mySPI, outbuffer, inbuffer, sizeof(outbuffer),
-			HAL_MAX_DELAY);
+	HAL_MAX_DELAY);
 	return inbuffer[0];
 }
 
@@ -196,7 +196,6 @@ u1_t hal_checkTimer(u4_t time)
 		return 0;
 	}
 }
-
 
 // -----------------------------------------------------------------------------
 // IRQ

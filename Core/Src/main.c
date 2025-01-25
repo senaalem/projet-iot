@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
+#include "i2c.h"
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
@@ -31,6 +32,8 @@
 #include "lmic.h"
 #include "debug.h"
 #include "hal.h"
+#include "bme68x_necessary_functions.h"
+#include "cayenne_lpp.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -53,8 +56,12 @@
 /* USER CODE BEGIN PV */
 // application router ID (LSBF) < ------- IMPORTANT
 static const u1_t APPEUI[8] = { 0x67, 0x09, 0x00, 0x00, 0x00, 0x5a, 0x55, 0xaa };
+// static const u1_t APPEUI[8] = { 0xaa, 0x55, 0x5a, 0x00, 0x00, 0x00, 0x09, 0x67 };
+
 // unique device ID (LSBF) < ------- IMPORTANT
 static const u1_t DEVEUI[8] = { 0x8e, 0x3b, 0x00, 0xd8, 0x7e, 0xd5, 0xb3, 0x70 };
+// static const u1_t DEVEUI[8] = { 0x8e, 0x3b, 0x00, 0xd8, 0x7e, 0xd5, 0xb3, 0x70 };
+
 // device-specific AES key (derived from device EUI (MSBF))
 static const u1_t DEVKEY[16] = { 0xe0, 0x3e, 0x13, 0x9e, 0x7e, 0xea, 0x2f, 0xb9,
 		0x2c, 0x9f, 0xfb, 0x3b, 0x7d, 0x3e, 0xb6, 0xc3 };
@@ -62,6 +69,9 @@ static const u1_t DEVKEY[16] = { 0xe0, 0x3e, 0x13, 0x9e, 0x7e, 0xea, 0x2f, 0xb9,
 uint32_t n_temp = 0;
 uint32_t temp = 0;
 
+struct bme68x_data data;
+
+cayenne_lpp_t lpp_desc;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -96,10 +106,17 @@ void initsensor()
 	HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
 }
 
+void initsensor_bme()
+{
+	// Here you init your sensors
+	bme68x_start(&data, &hi2c1);
+}
+
 void initfunc(osjob_t *j)
 {
 	// initialize sensor hardware
 	initsensor();
+	initsensor_bme();
 	// reset MAC state
 	LMIC_reset();
 	// start joining
@@ -113,6 +130,14 @@ u2_t readsensor()
 	return value;
 }
 
+void readsensor_bme()
+{
+	if (bme68x_single_measure(&data) == 0) {
+		// Measurement is successful, so continue with IAQ
+		data.iaq_score = bme68x_iaq(); // Calculate IAQ
+	} /// read from everything ...make your own sensor
+}
+
 static osjob_t reportjob;
 // report sensor value every minute
 static void reportfunc(osjob_t *j)
@@ -124,14 +149,38 @@ static void reportfunc(osjob_t *j)
 	LMIC.frame[0] = 0;
 	LMIC.frame[1] = 0x67;
 	val /= 100;
+	// val /= 100;
 	LMIC.frame[2] = val >> 8;
 	LMIC.frame[3] = val;
 	// La fonction LMIC_setTxData2 envoie
-	LMIC_setTxData2(1, LMIC.frame, 2, 0);
+	LMIC_setTxData2(1, LMIC.frame, 4, 0);
 	// la trame Lora : LMIC.frame
 	// (port 1, 2 bytes, unconfirmed)
 	// reschedule job in 15 seconds
 	os_setTimedCallback(j, os_getTime() + sec2osticks(15), reportfunc);
+}
+
+static osjob_t reportjob_bme;
+// report bme sensor value every minute
+static void reportfunc_bme(osjob_t *j)
+{
+	// read sensor
+	readsensor_bme();
+
+	debug_valfloat("T = ", data.temperature, 7);
+	debug_valdec("IAQ = ", data.iaq_score);
+	debug_valfloat("h = ", data.humidity, 7);
+	// prepare and schedule data for transmission
+	cayenne_lpp_reset(&lpp_desc);
+	cayenne_lpp_add_temperature(&lpp_desc, 0, data.temperature);
+	cayenne_lpp_add_analog_output(&lpp_desc, 1, data.iaq_score);
+	cayenne_lpp_add_analog_output(&lpp_desc, 2, data.humidity);
+	// La fonction LMIC_setTxData2 envoie
+	LMIC_setTxData2(1, &lpp_desc, 4 * 3, 0);
+	// la trame Lora : lpp_desc
+	// (port 1, 2 bytes, unconfirmed)
+	// reschedule job in 15 seconds
+	os_setTimedCallback(j, os_getTime() + sec2osticks(15), reportfunc_bme);
 }
 
 // counter
@@ -176,7 +225,8 @@ void onEvent(ev_t ev)
 		// kick-off periodic sensor job
 		os_clearCallback(&blinkjob);
 		debug_led(1);
-		reportfunc(&reportjob);
+		// reportfunc(&reportjob);
+		reportfunc_bme(&reportjob_bme);
 		break;
 	case EV_JOIN_FAILED:
 		debug_str("join failed\r\n");
@@ -264,9 +314,10 @@ int main(void)
 	MX_GPIO_Init();
 	MX_SPI3_Init();
 	MX_TIM7_Init();
-	MX_USART1_UART_Init();
 	MX_ADC1_Init();
 	MX_TIM6_Init();
+	MX_I2C1_Init();
+	MX_USART2_UART_Init();
 	/* USER CODE BEGIN 2 */
 	HAL_TIM_Base_Start_IT(&htim6);
 	HAL_TIM_Base_Start_IT(&htim7);   // <----------- change to your setup
@@ -289,12 +340,13 @@ int main(void)
 	/* Infinite loop */
 	/* USER CODE BEGIN WHILE */
 	while (1) {
+
+		}
 		/* USER CODE END WHILE */
 
 		/* USER CODE BEGIN 3 */
-	}
-	/* USER CODE END 3 */
 }
+/* USER CODE END 3 */
 
 /**
  * @brief System Clock Configuration
