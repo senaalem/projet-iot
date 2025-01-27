@@ -60,8 +60,8 @@ all: main-build
 main-build: application.elf secondary-outputs
 
 # Tool invocations
-application.elf application.map: $(OBJS) $(USER_OBJS) /Users/bilelbetka/Documents/EMSE/projet_iot/iot_workspace/application/STM32L432KCUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "application.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/bilelbetka/Documents/EMSE/projet_iot/iot_workspace/application/STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="application.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+application.elf application.map: $(OBJS) $(USER_OBJS) D:\Document\GitHub\projet-iot\STM32L432KCUX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "application.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\Document\GitHub\projet-iot\STM32L432KCUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="application.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

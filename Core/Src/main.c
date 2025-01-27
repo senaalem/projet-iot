@@ -69,7 +69,7 @@ static const u1_t DEVKEY[16] = { 0xe0, 0x3e, 0x13, 0x9e, 0x7e, 0xea, 0x2f, 0xb9,
 uint32_t n_temp = 0;
 uint32_t temp = 0;
 
-uint32_t n_water = 0;
+uint16_t n_water = 0;
 uint32_t water = 0;
 
 struct bme68x_data data;
@@ -173,18 +173,13 @@ static void reportfunc_bme(osjob_t *j)
 	debug_valfloat("T = ", data.temperature, 7);
 	debug_valdec("IAQ = ", data.iaq_score);
 	debug_valfloat("h = ", data.humidity, 7);
-	debug_valdec("w = ", n_temp);
-	if (n_water < 700) {
-		HAL_GPIO_WritePin(buzzer_GPIO_Port, buzzer_Pin, GPIO_PIN_SET);
-	} else {
-		HAL_GPIO_WritePin(buzzer_GPIO_Port, buzzer_Pin, GPIO_PIN_RESET);
-	}
+	debug_valdec("w = ", n_water);
 	// prepare and schedule data for transmission
 	cayenne_lpp_reset(&lpp_desc);
 	cayenne_lpp_add_temperature(&lpp_desc, 0, data.temperature);
 	cayenne_lpp_add_analog_output(&lpp_desc, 1, data.iaq_score);
 	cayenne_lpp_add_analog_output(&lpp_desc, 2, data.humidity);
-	cayenne_lpp_add_analog_output(&lpp_desc, 3, n_temp);
+	cayenne_lpp_add_analog_output(&lpp_desc, 3, n_water/10);
 	// La fonction LMIC_setTxData2 envoie
 	LMIC_setTxData2(1, &lpp_desc, 4 * 4, 0);
 	// la trame Lora : lpp_desc
@@ -430,6 +425,14 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 			conv_cnt++;
 		} else if (conv_cnt == 1) {
 			n_water = HAL_ADC_GetValue(&hadc1);
+			//HAL_Delay(100);
+			debug_valdec("w_debug = ", n_water);
+			if (n_water < 600) {
+					//debug_valdec("w_debug < 600 ", n_water);
+					HAL_GPIO_WritePin(buzzer_GPIO_Port, buzzer_Pin, GPIO_PIN_SET);
+					} else {
+					HAL_GPIO_WritePin(buzzer_GPIO_Port, buzzer_Pin, GPIO_PIN_RESET);
+					}
 			conv_cnt--;
 		}
 	}
