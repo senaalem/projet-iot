@@ -490,7 +490,7 @@ static void txfsk()
 
 	// set the IRQ mapping DIO0=PacketSent DIO1=NOP DIO2=NOP
 	writeReg(RegDioMapping1,
-			MAP_DIO0_FSK_READY | MAP_DIO1_FSK_NOP | MAP_DIO2_FSK_TXNOP);
+	MAP_DIO0_FSK_READY | MAP_DIO1_FSK_NOP | MAP_DIO2_FSK_TXNOP);
 
 	// initialize the payload size and address pointers    
 	writeReg(FSKRegPayloadLength, LMIC.dataLen + 1); // (insert length byte into payload))
@@ -527,7 +527,7 @@ static void txlora()
 
 	// set the IRQ mapping DIO0=TxDone DIO1=NOP DIO2=NOP
 	writeReg(RegDioMapping1,
-			MAP_DIO0_LORA_TXDONE | MAP_DIO1_LORA_NOP | MAP_DIO2_LORA_NOP);
+	MAP_DIO0_LORA_TXDONE | MAP_DIO1_LORA_NOP | MAP_DIO2_LORA_NOP);
 	// clear all radio IRQ flags
 	writeReg(LORARegIrqFlags, 0xFF);
 	// mask all IRQs but TxDone
@@ -607,7 +607,7 @@ static void rxlora(u1_t rxmode)
 
 	// configure DIO mapping DIO0=RxDone DIO1=RxTout DIO2=NOP
 	writeReg(RegDioMapping1,
-			MAP_DIO0_LORA_RXDONE | MAP_DIO1_LORA_RXTOUT | MAP_DIO2_LORA_NOP);
+	MAP_DIO0_LORA_RXDONE | MAP_DIO1_LORA_RXTOUT | MAP_DIO2_LORA_NOP);
 	// clear all radio IRQ flags
 	writeReg(LORARegIrqFlags, 0xFF);
 	// enable required radio IRQs
@@ -668,7 +668,7 @@ static void rxfsk(u1_t rxmode)
 
 	// configure DIO mapping DIO0=PayloadReady DIO1=NOP DIO2=TimeOut
 	writeReg(RegDioMapping1,
-			MAP_DIO0_FSK_READY | MAP_DIO1_FSK_NOP | MAP_DIO2_FSK_TIMEOUT);
+	MAP_DIO0_FSK_READY | MAP_DIO1_FSK_NOP | MAP_DIO2_FSK_TIMEOUT);
 
 	// enable antenna switch for RX
 	hal_pin_rxtx(0);
