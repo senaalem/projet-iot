@@ -1292,7 +1292,7 @@ static int8_t set_mem_page(uint8_t reg_addr, struct bme68x_dev *dev)
 				reg = reg & (~BME68X_MEM_PAGE_MSK);
 				reg = reg | (dev->mem_page & BME68X_MEM_PAGE_MSK);
 				dev->intf_rslt = dev->write(
-						BME68X_REG_MEM_PAGE & BME68X_SPI_WR_MSK, &reg, 1,
+				BME68X_REG_MEM_PAGE & BME68X_SPI_WR_MSK, &reg, 1,
 						dev->intf_ptr);
 				if (dev->intf_rslt != 0) {
 					rslt = BME68X_E_COM_FAIL;

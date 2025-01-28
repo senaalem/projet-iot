@@ -72,8 +72,6 @@ void cayenne_lpp_add_analog_output(cayenne_lpp_t *lpp, uint8_t channel,
 	lpp->buffer[lpp->cursor++] = val;
 }
 
-
-
 void cayenne_lpp_add_luminosity(cayenne_lpp_t *lpp, uint8_t channel,
 		uint16_t lux)
 {
