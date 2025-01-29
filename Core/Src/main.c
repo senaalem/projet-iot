@@ -69,6 +69,9 @@ static const u1_t DEVKEY[16] = { 0xe0, 0x3e, 0x13, 0x9e, 0x7e, 0xea, 0x2f, 0xb9,
 uint32_t n_temp = 0;
 uint32_t temp = 0;
 
+uint16_t n_water = 0;
+uint32_t water = 0;
+
 struct bme68x_data data;
 
 cayenne_lpp_t lpp_desc;
@@ -170,13 +173,15 @@ static void reportfunc_bme(osjob_t *j)
 	debug_valfloat("T = ", data.temperature, 7);
 	debug_valdec("IAQ = ", data.iaq_score);
 	debug_valfloat("h = ", data.humidity, 7);
+	debug_valdec("w = ", n_water);
 	// prepare and schedule data for transmission
 	cayenne_lpp_reset(&lpp_desc);
 	cayenne_lpp_add_temperature(&lpp_desc, 0, data.temperature);
 	cayenne_lpp_add_analog_output(&lpp_desc, 1, data.iaq_score);
 	cayenne_lpp_add_analog_output(&lpp_desc, 2, data.humidity);
+	cayenne_lpp_add_analog_output(&lpp_desc, 3, n_water / 10);
 	// La fonction LMIC_setTxData2 envoie
-	LMIC_setTxData2(1, &lpp_desc, 4 * 3, 0);
+	LMIC_setTxData2(1, &lpp_desc, 4 * 4, 0);
 	// la trame Lora : lpp_desc
 	// (port 1, 2 bytes, unconfirmed)
 	// reschedule job in 15 seconds
@@ -323,6 +328,7 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim7);   // <----------- change to your setup
 	__HAL_SPI_ENABLE(&hspi3);        // <----------- change to your setup
 	HAL_GPIO_WritePin(Alim_temp_GPIO_Port, Alim_temp_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(buzzer_GPIO_Port, buzzer_Pin, GPIO_PIN_RESET);
 	osjob_t initjob;
 	// initialize runtime env
 	os_init();
@@ -343,10 +349,11 @@ int main(void)
 
 	}
 	/* USER CODE END WHILE */
-
+  
 	/* USER CODE BEGIN 3 */
+
+	/* USER CODE END 3 */
 }
-/* USER CODE END 3 */
 
 /**
  * @brief System Clock Configuration
@@ -398,19 +405,32 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	if (htim == &htim6) {
+	if (htim == &htim6)
 		HAL_ADC_Start_IT(&hadc1);
-	}
-	if (htim->Instance == htim7.Instance) {
+	if (htim->Instance == htim7.Instance)
 		hal_ticksplusplus();
-	}
 }
 
 void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 {
 	if (hadc == &hadc1) {
-		n_temp = HAL_ADC_GetValue(&hadc1);
-		temp = 188686 - 147 * n_temp;
+		static uint8_t conv_cnt = 0;
+		if (conv_cnt == 0) {
+			n_temp = HAL_ADC_GetValue(&hadc1);
+			temp = 188686 - 147 * n_temp;
+			conv_cnt++;
+		} else if (conv_cnt == 1) {
+			n_water = HAL_ADC_GetValue(&hadc1);
+			//HAL_Delay(100);
+			debug_valdec("w_debug = ", n_water);
+			if (n_water < 600) {
+				//debug_valdec("w_debug < 600 ", n_water);
+				HAL_GPIO_WritePin(buzzer_GPIO_Port, buzzer_Pin, GPIO_PIN_SET);
+			} else {
+				HAL_GPIO_WritePin(buzzer_GPIO_Port, buzzer_Pin, GPIO_PIN_RESET);
+			}
+			conv_cnt--;
+		}
 	}
 }
 /* USER CODE END 4 */
