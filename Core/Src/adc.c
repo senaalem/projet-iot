@@ -72,7 +72,7 @@ void MX_ADC1_Init(void)
 	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
 		Error_Handler();
 	}
-
+  
 	/** Configure Regular Channel
 	 */
 	sConfig.Channel = ADC_CHANNEL_9;
@@ -80,6 +80,7 @@ void MX_ADC1_Init(void)
 	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
 		Error_Handler();
 	}
+
 	/* USER CODE BEGIN ADC1_Init 2 */
 
 	/* USER CODE END ADC1_Init 2 */
@@ -113,7 +114,6 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef *adcHandle)
 
 		/* ADC1 clock enable */
 		__HAL_RCC_ADC_CLK_ENABLE();
-
 		__HAL_RCC_GPIOA_CLK_ENABLE();
 		__HAL_RCC_GPIOB_CLK_ENABLE();
 		/**ADC1 GPIO Configuration
@@ -124,7 +124,6 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef *adcHandle)
 		GPIO_InitStruct.Mode = GPIO_MODE_ANALOG_ADC_CONTROL;
 		GPIO_InitStruct.Pull = GPIO_NOPULL;
 		HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
 		GPIO_InitStruct.Pin = GPIO_PIN_0;
 		GPIO_InitStruct.Mode = GPIO_MODE_ANALOG_ADC_CONTROL;
 		GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -160,7 +159,7 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef *adcHandle)
 		/* ADC1 interrupt Deinit */
 		HAL_NVIC_DisableIRQ(ADC1_IRQn);
 		/* USER CODE BEGIN ADC1_MspDeInit 1 */
-
+    
 		/* USER CODE END ADC1_MspDeInit 1 */
 	}
 }

@@ -62,7 +62,6 @@ void MX_GPIO_Init(void)
 	GPIO_InitStruct.Pull = GPIO_PULLDOWN;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init(buzzer_GPIO_Port, &GPIO_InitStruct);
-
 	/*Configure GPIO pins : Alim_temp_Pin RST_Pin NSS_Pin */
 	GPIO_InitStruct.Pin = Alim_temp_Pin | RST_Pin | NSS_Pin;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
